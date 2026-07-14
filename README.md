@@ -192,7 +192,10 @@ Seedance-cinemanga-director/
 ├── NOTICE
 ├── LICENSE
 ├── .github/
-│   ├── workflows/validate.yml
+│   ├── workflows/
+│   │   ├── bandit.yml
+│   │   ├── codeql.yml
+│   │   └── validate.yml
 │   ├── pull_request_template.md
 │   └── ISSUE_TEMPLATE/
 ├── assets/
