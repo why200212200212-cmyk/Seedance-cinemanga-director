@@ -1,0 +1,4 @@
+interface:
+  display_name: "Seedance Cinemanga Director"
+  short_description: "把剧本编译为3D或真人影视级Seedance导演提示词"
+  default_prompt: "使用 $seedance-cinemanga-director 将这段剧情制作成连续、可执行的影视级 Seedance 视频提示词。"

@@ -1,0 +1,266 @@
+# Seedance Cinemanga Director
+
+<p align="center">
+  <strong>面向即梦 Seedance 的双影视级视频导演 Skill</strong><br>
+  3D国漫影视级 · 真人影视级 · 完整15秒 · 连续4–15秒 · 强连续性
+</p>
+
+<p align="center">
+  <img src="assets/cover-banner.png" alt="Seedance Cinemanga Director cover banner" width="100%">
+</p>
+
+> [!IMPORTANT]
+> **非官方声明：**本项目为社区开源项目，与即梦或 Seedance 官方无隶属、授权、背书或合作关系。项目名称仅用于说明其面向的创作工作流与兼容目标。
+
+## 项目简介
+
+`Seedance Cinemanga Director` 将中文小说、剧本、剧情段落、分镜笔记和参考图描述，转换为可直接用于即梦 Seedance 的导演级视频提示词。
+
+它不是普通的“提示词润色器”，而是一套带有镜头合约、人物过滤、对白时长、表演调度、空间连续、道具追踪、光影锁定和尾帧接力能力的导演工作流。
+
+## 视觉预览
+
+这批视觉资产已按用途归档到 `assets/`，并放置在仓库文档中的合适位置，分别承担 **主视觉装饰、架构展示、板式示例、文档资产示例** 四类作用。
+
+<p align="center">
+  <img src="assets/skill-preview.png" alt="Skill Preview" width="100%">
+</p>
+
+> 视觉图为功能与结构的概念预览；图内旧文件名、固定时间段与示例参数不构成当前规范，以文字文档和本文“仓库结构”为准。
+
+## 核心能力
+
+- **双影视引擎**：精致3D国漫影视级 / 真人影视级；
+- **双输出模式**：完整15秒单条 / 连续多条4–15秒；
+- **原台词锁定**：不改写、不删减、不重排；
+- **必要人物过滤**：只保留当前剧情真正需要的角色；
+- **导演级镜头语言**：景别、机位、轴线、焦点、运镜、结束构图；
+- **表演与走位**：站位、面对关系、动作顺序、视线和手部状态；
+- **对白时长校验**：为口型、停顿、反应和尾帧保留真实时间；
+- **强连续性**：角色、空间、道具、光影、屏幕方向稳定；
+- **转场感知接力**：连续接力严格继承；同场切镜允许摄影机变化；换场/时间跳跃建立新账本；匹配剪辑与声音桥保留指定锚点；
+- **声音叙事**：环境音、动作音、呼吸、空间声源和静默；
+- **默认纯净输出**：有音效，无音乐、无BGM、无字幕、无水印。
+- **状态账本**：逐镜追踪角色身份、服装层、伤势污损、左右手、道具、空间锚点、主光和天气；
+- **3D制作约束**：控制材质响应、动作力学、接触、次级运动、虚拟摄影机和渲染稳定性；
+- **真人摄影约束**：明确焦段、机位、设备、景深、曝光、光源、演员微表演和现场物理；
+- **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
+
+## 快速安装
+
+### Codex 手动安装
+
+将仓库克隆或复制到 `$CODEX_HOME/skills/seedance-cinemanga-director`；未设置 `CODEX_HOME` 时使用 `~/.codex/skills/seedance-cinemanga-director`。重新打开 Codex 后即可发现该 Skill。
+
+### OpenClaw / AgentSkills Git 安装
+
+```bash
+openclaw skills install git:why200212200212-cmyk/Seedance-cinemanga-director@main
+```
+
+此命令需要本机已安装兼容的 OpenClaw CLI；本仓库的本地校验不验证第三方 CLI 的安装与网络行为。
+
+### 本地目录安装
+
+```bash
+git clone https://github.com/why200212200212-cmyk/Seedance-cinemanga-director.git
+openclaw skills install ./Seedance-cinemanga-director
+```
+
+也可以把整个目录放入以下任一 Skill 路径：
+
+```text
+<workspace>/skills/seedance-cinemanga-director
+<workspace>/.agents/skills/seedance-cinemanga-director
+~/.agents/skills/seedance-cinemanga-director
+~/.openclaw/skills/seedance-cinemanga-director
+```
+
+## 使用示例
+
+### 完整15秒单条
+
+```text
+使用 Seedance Cinemanga Director，把下面剧情制作成完整15秒单条即梦视频。
+风格：精致3D国漫影视级。
+要求：保留原台词，有音效，无BGM，无字幕。
+
+[粘贴剧情]
+```
+
+### 连续多条
+
+```text
+使用 Seedance Cinemanga Director，把下面剧本拆成连续多条4–15秒视频。
+风格：真人影视级。
+所有人物、服装、场景、道具和光影必须连贯，上一条尾帧接下一条开头。
+
+[粘贴剧本]
+```
+
+### 参考图锁定
+
+```text
+图一是角色A，图二是角色B，图三是固定场景。
+按照图片锁定角色脸型、发型、服装和场景结构，生成完整15秒单条视频。
+```
+
+## 系统架构总览
+
+下图用于说明这个 Skill 从输入素材到最终导演级提示词的完整路径，适合放在仓库说明和 `docs/architecture.md` 中作为核心架构图。
+
+<p align="center">
+  <img src="assets/system-architecture.png" alt="System Architecture" width="100%">
+</p>
+
+对应流程：
+
+1. **Input Materials**：小说、剧本、场景简介、图片描述等输入；
+2. **Story Analysis**：人物筛选、对白时长、剧情拆解；
+3. **Director's Planning**：机位、走位、光影、节奏与连续性设计；
+4. **Prompt Output**：完整15秒 / 连续多条4–15秒 / 分镜提示词；
+5. **Continuity & QA**：尾帧接力、连戏校验、无BGM、无字幕等清洁输出约束。
+
+| 导演工作流详图 | 提示词输出系统 | 视觉资产与质检 |
+|---|---|---|
+| ![Workflow Architecture](assets/workflow-architecture.png) | ![Prompt Output System](assets/prompt-output-system.png) | ![Visual Assets QA](assets/visual-assets-qa.png) |
+
+## 分镜板示例资源
+
+这几张图更适合放在 **示例展示区**，用来说明本 Skill 适配的分镜板类型与视觉组织方式：
+
+| 六镜分镜执行板 | 九宫格示例 | 二十五格示例 |
+|---|---|---|
+| ![Storyboard Example](assets/storyboard-example.png) | ![Nine Grid Example](assets/nine-grid-example.png) | ![Twenty-Five Grid Example](assets/twenty-five-grid-example.png) |
+
+建议用途：
+
+- `storyboard-example.png`：说明标准执行板、镜头分栏、节奏曲线、灯光与关键道具字段；
+- `nine-grid-example.png`：说明九宫格阅读顺序、箭头衔接与节奏推进；
+- `twenty-five-grid-example.png`：说明长段落、多镜头和复杂节奏的连续铺排。
+
+## 文档资产与装饰图标
+
+下图适合作为 README 和文档页中的“资产板 / 装饰图标板”，帮助用户快速理解功能模块。
+
+<p align="center">
+  <img src="assets/icons-board.png" alt="Seedance Asset Icons" width="100%">
+</p>
+
+这张图把仓库中最重要的视觉语义统一为 16 个小图标模块，例如：
+
+- Character Consistency
+- Camera Motion
+- Lighting
+- Dialogue Timing
+- Sound FX
+- No BGM / No Subtitles
+- Tail-Frame Relay
+- 3D Film Mode / Live-Action Mode
+- Nine-Grid / Twenty-Five-Grid
+- Storyboard / Continuity Lock / Quality Check
+
+## 仓库结构
+
+```text
+Seedance-cinemanga-director/
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+├── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── NOTICE
+├── LICENSE
+├── assets/
+│   ├── README.md
+│   ├── cover-banner.png
+│   ├── feature-overview.png
+│   ├── skill-preview.png
+│   ├── system-architecture.png
+│   ├── workflow-architecture.png
+│   ├── prompt-output-system.png
+│   ├── visual-assets-qa.png
+│   ├── icons-board.png
+│   ├── storyboard-example.png
+│   ├── nine-grid-example.png
+│   └── twenty-five-grid-example.png
+├── docs/
+│   ├── architecture.md
+│   ├── installation.md
+│   └── visual-showcase.md
+├── templates/
+│   ├── single-15s.md
+│   └── multi-clip.md
+├── references/
+│   ├── continuity-rules.md
+│   ├── quality-checklist.md
+│   ├── style-modes.md
+│   ├── dialogue-timing.md
+│   ├── shot-language.md
+│   ├── 3d-cinematic-production.md
+│   ├── live-action-cinematography.md
+│   └── prompt-compiler.md
+├── examples/
+│   ├── example-input-script.md
+│   ├── example-output-single.md
+│   └── example-output-multi-clip.md
+├── scripts/
+│   └── validate_skill.py
+└── tests/
+    └── acceptance-cases.md
+```
+
+## 输出约束
+
+输出分为“导演方案（审阅用）”与“可复制提示词”两层。完整15秒模式使用：
+
+```text
+_::~OUTPUT_START::~_
+导演方案（不粘贴）
+可复制图片提示词
+===
+可复制视频提示词
+_::~OUTPUT_END::~_
+```
+
+连续多条模式中，每条先声明转场类型，再按连续接力、同场切镜、换场/时间跳跃或匹配剪辑/声音桥分别记录继承状态、允许变化和保留锚点。
+
+## 本地校验
+
+```bash
+python scripts/validate_skill.py
+```
+
+校验器会检查核心文件、YAML Frontmatter、Skill 名称、模板标记和关键规则是否存在。
+
+## 视觉资产放置策略
+
+本次新增图片已按“**装饰优先级 + 示例优先级**”分配到仓库文档中：
+
+- **封面主视觉**：`assets/cover-banner.png`
+- **完整功能总览**：`assets/feature-overview.png`
+- **完整技能总览**：`assets/skill-preview.png`
+- **系统架构说明**：`assets/system-architecture.png`
+- **导演工作流详图**：`assets/workflow-architecture.png`
+- **提示词输出系统**：`assets/prompt-output-system.png`
+- **视觉资产与质检**：`assets/visual-assets-qa.png`
+- **分镜板示例**：`assets/storyboard-example.png`
+- **九宫格示例**：`assets/nine-grid-example.png`
+- **二十五格示例**：`assets/twenty-five-grid-example.png`
+- **功能图标资产板**：`assets/icons-board.png`
+
+详细说明见 [docs/visual-showcase.md](docs/visual-showcase.md)。
+
+## 贡献
+
+请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。新增规则应尽量保持：
+
+1. 可执行，而不是空泛形容；
+2. 不破坏原台词和原剧情；
+3. 不降低角色与空间连续性；
+4. 同时兼容完整15秒和连续多条模式。
+
+## License
+
+Apache License 2.0。详见 [LICENSE](LICENSE)。
