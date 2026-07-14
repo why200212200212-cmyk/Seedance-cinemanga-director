@@ -1,5 +1,7 @@
 # Seedance Cinemanga Director
 
+[![Validate skill](https://github.com/why200212200212-cmyk/Seedance-cinemanga-director/actions/workflows/validate.yml/badge.svg)](https://github.com/why200212200212-cmyk/Seedance-cinemanga-director/actions/workflows/validate.yml)
+
 <p align="center">
   <strong>面向即梦 Seedance 的双影视级视频导演 Skill</strong><br>
   3D国漫影视级 · 真人影视级 · 完整15秒 · 连续4–15秒 · 强连续性
@@ -75,6 +77,23 @@ openclaw skills install ./Seedance-cinemanga-director
 ~/.agents/skills/seedance-cinemanga-director
 ~/.openclaw/skills/seedance-cinemanga-director
 ```
+
+## 接入 Seedance API 后直接运行
+
+本仓库现在同时包含导演 Skill 与平台无关的 API 执行适配器。Codex、OpenClaw 或其他能够读取 AgentSkills 并执行 Python 的 AI，只需加载本仓库、配置火山方舟凭证，即可完成“素材分析 → 3D/真人专项导演编译 → 请求预检 → 异步生成 → 下载结果”的流程。
+
+```powershell
+Copy-Item .env.example .env
+python scripts/seedance_client.py --model doubao-seedance-2-0-260128 create --prompt-file examples/api-prompt.txt --dry-run
+```
+
+确认模型权限和请求体后，实际创建任务并下载：
+
+```bash
+python scripts/seedance_client.py create --prompt-file prompt.txt --wait --output outputs/seedance.mp4
+```
+
+创建视频可能产生费用，因此 Skill 必须先 dry-run，且只有用户明确要求实际生成时才调用创建接口。完整配置与命令见 [API 接入文档](docs/api-integration.md)，Codex / OpenClaw / 其他代理的接入方式见 [Agent 接入文档](docs/agent-integration.md)。
 
 ## 使用示例
 
@@ -172,6 +191,10 @@ Seedance-cinemanga-director/
 ├── CONTRIBUTING.md
 ├── NOTICE
 ├── LICENSE
+├── .github/
+│   ├── workflows/validate.yml
+│   ├── pull_request_template.md
+│   └── ISSUE_TEMPLATE/
 ├── assets/
 │   ├── README.md
 │   ├── cover-banner.png
@@ -187,6 +210,8 @@ Seedance-cinemanga-director/
 │   └── twenty-five-grid-example.png
 ├── docs/
 │   ├── architecture.md
+│   ├── agent-integration.md
+│   ├── api-integration.md
 │   ├── installation.md
 │   └── visual-showcase.md
 ├── templates/
@@ -200,15 +225,20 @@ Seedance-cinemanga-director/
 │   ├── shot-language.md
 │   ├── 3d-cinematic-production.md
 │   ├── live-action-cinematography.md
+│   ├── runtime-orchestration.md
+│   ├── seedance-api.md
 │   └── prompt-compiler.md
 ├── examples/
+│   ├── api-prompt.txt
 │   ├── example-input-script.md
 │   ├── example-output-single.md
 │   └── example-output-multi-clip.md
 ├── scripts/
+│   ├── seedance_client.py
 │   └── validate_skill.py
 └── tests/
-    └── acceptance-cases.md
+    ├── acceptance-cases.md
+    └── test_seedance_client.py
 ```
 
 ## 输出约束
@@ -232,7 +262,9 @@ _::~OUTPUT_END::~_
 python scripts/validate_skill.py
 ```
 
-校验器会检查核心文件、YAML Frontmatter、Skill 名称、模板标记和关键规则是否存在。
+校验器会检查核心文件、YAML Frontmatter、Skill 名称、模板标记、关键规则、API 执行契约和文档链接是否存在。
+
+GitHub Actions 会在每次推送到 `main`、Pull Request 和手动触发时，使用 Python 3.10 与 3.13 自动运行编译检查、离线单元测试、API dry-run 和完整校验。CI 不会创建视频任务。
 
 ## 视觉资产放置策略
 

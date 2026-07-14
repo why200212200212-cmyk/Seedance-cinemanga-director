@@ -78,7 +78,7 @@ description: "将中文小说、剧本、剧情段落、分镜笔记和参考图
 
 ## 3. 双影视引擎
 
-根据用户要求选择一种，不得在同一条中无故混用。
+先读取 `references/style-modes.md` 选择一种模式，不得在同一条中无故混用。若用户明确要求混合模式，指定一个主模式和一条可混入边界。
 
 模式确定后、镜头规划前，只读取并应用对应专项文件：3D模式读取 `references/3d-cinematic-production.md`，真人模式读取 `references/live-action-cinematography.md`；不要同时加载两套参数。
 
@@ -158,6 +158,19 @@ description: "将中文小说、剧本、剧情段落、分镜笔记和参考图
 
 最终输出前读取并应用 `references/prompt-compiler.md`：删去互相冲突、不可执行、重复堆叠的描述，保留能够改变画面的指令。
 
+### 5.1 可选 API 执行
+
+若用户只要求方案、分镜或提示词，到最终输出为止，不调用生成 API。若用户明确要求实际生成，并且执行环境已安全配置火山方舟凭证与可用模型/推理接入点，则读取并执行 `references/runtime-orchestration.md` 与 `references/seedance-api.md`：
+
+1. 仅提取“可复制视频提示词”，不得提交导演审阅说明、状态账本或隐藏推理；
+2. 按用户声明顺序绑定参考图，使提示词中的“图片1、图片2……”与 API `content` 顺序一致；
+3. 先运行 `scripts/seedance_client.py ... create ... --dry-run` 检查请求体；
+4. 明确告知创建任务可能计费，只有用户已要求实际生成时才去掉 `--dry-run`；
+5. 等待异步任务终态，成功才报告结果；失败或取消时返回可操作的官方错误信息；
+6. 若可读取成片，按当前模式质量门槛复核。任何付费重试都需要具体失败依据，不得无限自动重试。
+
+Codex、OpenClaw 与其他 AI 均使用同一执行契约。宿主已有用户配置的 Seedance/火山方舟工具时可按相同字段与安全边界调用；否则使用仓库脚本。宿主既无工具也不能运行脚本时，仍可输出已质检的可复制提示词与 API 请求预览，并说明执行限制。
+
 ## 6. 镜头执行规则
 
 每个镜头按剧情需要明确：
@@ -221,5 +234,6 @@ description: "将中文小说、剧本、剧情段落、分镜笔记和参考图
 - 模式确定后只读其一：`references/3d-cinematic-production.md` 或 `references/live-action-cinematography.md`
 - 有对白：`references/dialogue-timing.md`
 - 多镜、多条或跨场：`references/shot-language.md` 与 `references/continuity-rules.md`
-- 模式选择仍不明确：`references/style-modes.md`
+- 每次模式选择：`references/style-modes.md`
 - 最终硬门槛：`references/quality-checklist.md`
+- 用户明确要求实际生成：`references/runtime-orchestration.md` 与 `references/seedance-api.md`

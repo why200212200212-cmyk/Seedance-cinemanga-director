@@ -15,6 +15,8 @@ REQUIRED_FILES = [
     "CONTRIBUTING.md",
     "NOTICE",
     "LICENSE",
+    ".env.example",
+    ".github/workflows/validate.yml",
     "templates/single-15s.md",
     "templates/multi-clip.md",
     "references/continuity-rules.md",
@@ -25,13 +27,20 @@ REQUIRED_FILES = [
     "references/3d-cinematic-production.md",
     "references/live-action-cinematography.md",
     "references/prompt-compiler.md",
+    "references/runtime-orchestration.md",
+    "references/seedance-api.md",
+    "examples/api-prompt.txt",
     "examples/example-input-script.md",
     "examples/example-output-single.md",
     "examples/example-output-multi-clip.md",
     "docs/architecture.md",
+    "docs/agent-integration.md",
+    "docs/api-integration.md",
     "docs/installation.md",
     "docs/visual-showcase.md",
     "tests/acceptance-cases.md",
+    "tests/test_seedance_client.py",
+    "scripts/seedance_client.py",
     "assets/README.md",
     "assets/cover-banner.png",
     "assets/feature-overview.png",
@@ -103,6 +112,32 @@ def main() -> None:
     for marker in ["全局声音规则", "全局摄影与物理规则", "转场类型", "状态账本更新", "可复制视频提示词", "负面约束"]:
         if marker not in multi_example:
             fail(f"multi example missing field: {marker}")
+
+    acceptance_cases = (ROOT / "tests/acceptance-cases.md").read_text(encoding="utf-8")
+    for marker in ["对白过长且明确禁止拆分", "有依据的换场", "匹配剪辑或声音桥", "镜头复杂度过载", "模式隔离", "平台能力未知"]:
+        if marker not in acceptance_cases:
+            fail(f"acceptance cases missing boundary: {marker}")
+
+    workflow = (ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8")
+    for marker in [
+        "actions/checkout@v6",
+        "actions/setup-python@v6",
+        "python -m unittest discover",
+        "--dry-run",
+        "python scripts/validate_skill.py",
+    ]:
+        if marker not in workflow:
+            fail(f"validation workflow missing step: {marker}")
+
+    api_client = (ROOT / "scripts/seedance_client.py").read_text(encoding="utf-8")
+    for marker in ["ARK_API_KEY", "SEEDANCE_MODEL", "--dry-run", "return_last_frame", "video_url"]:
+        if marker not in api_client:
+            fail(f"API client missing contract marker: {marker}")
+
+    runtime = (ROOT / "references/runtime-orchestration.md").read_text(encoding="utf-8")
+    for marker in ["Codex", "OpenClaw", "--dry-run", "不得无上限自动重试"]:
+        if marker not in runtime:
+            fail(f"runtime orchestration missing boundary: {marker}")
 
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in ["display_name:", "short_description:", "default_prompt:", "$seedance-cinemanga-director"]:

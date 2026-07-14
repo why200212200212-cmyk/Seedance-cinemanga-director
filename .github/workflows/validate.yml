@@ -1,0 +1,39 @@
+name: Validate skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.13"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile validator
+        run: python -m compileall -q scripts
+
+      - name: Run offline client tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+
+      - name: Preview API payload without network
+        run: python scripts/seedance_client.py --model ci-placeholder create --prompt-file examples/api-prompt.txt --dry-run
+
+      - name: Validate skill structure and assets
+        run: python scripts/validate_skill.py
