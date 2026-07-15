@@ -105,6 +105,8 @@ python scripts/seedance_client.py create --prompt-file prompt.txt --wait --outpu
 
 创建视频可能产生费用，因此 Skill 必须先 dry-run，且只有用户明确要求实际生成时才调用创建接口。完整配置与命令见 [API 接入文档](docs/api-integration.md)，Codex / OpenClaw / 其他代理的接入方式见 [Agent 接入文档](docs/agent-integration.md)。
 
+参考图既可使用 API 可访问的 HTTPS URL，也可使用账户中已授权可信人物素材的 `asset://asset-id`；只有本机环回测试允许 HTTP。执行客户端会按 Seedance 2.0 契约写入 `role: reference_image`。首尾帧、视频、音频等其他模态继续通过官方 `content` JSON 透传。
+
 ## 使用示例
 
 ### 完整15秒单条

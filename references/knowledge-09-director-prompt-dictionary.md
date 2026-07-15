@@ -25,17 +25,17 @@
 
 ### 1.1 标准结构
 ```
-[Shots] [Movement] of [Subject], [Action/Expression], 
-in [Environment], [Lighting], [Colors], 
+[Shots] [Movement] of [Subject], [Action/Expression],
+in [Environment], [Lighting], [Colors],
 [Equipment/Lens], [Style], [Aspect Ratio], [Quality]
 ```
 
 ### 1.2 文档级完整模板
 ```
-[景别 + 运镜] of [主体], [动作描述], 
-located in [空间环境], 
+[景别 + 运镜] of [主体], [动作描述],
+located in [空间环境],
 [光线氛围] lighting, [主色调] and [辅色调] color palette,
-shot on [摄影机] with [镜头] lens, 
+shot on [摄影机] with [镜头] lens,
 [风格声明] style, [情绪] atmosphere,
 9:16 vertical format, 24fps, 4K cinematic quality
 ```
@@ -350,7 +350,7 @@ AI导演智能体最终输出的分镜提示词应包含：
 风格：hyper-realistic, live-action quality
 Prompt：
 "Medium close-up, Naya stumbling through narrow gap between charred rocks,
-wiping sweat and blood from forehead, distant dark red dragon silhouette 
+wiping sweat and blood from forehead, distant dark red dragon silhouette
 flying across deep orange sky behind her, heat haze distorting air,
 85mm lens, shallow depth of field, low key lighting,
 hyper-realistic, live-action quality, 9:16 vertical"
