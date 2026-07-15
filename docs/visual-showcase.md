@@ -31,7 +31,15 @@
 - `assets/storyboard-example.png`
 - `assets/nine-grid-example.png`
 - `assets/twenty-five-grid-example.png`
-- 作用：作为输出形态示例，让用户直观看到标准分镜板、九宫格和二十五格板式。
+- `assets/adaptive-storyboard-workflow.png`
+- `assets/ai-readable-camera-routes.png`
+- `assets/segmented-camera-path.png`
+- 作用：让用户直观看到标准分镜板、九宫格、二十五格、智能宫格，以及AI可辨识的运镜/动作/视线/焦点/光线/阅读路线语法和分段转向后的后续方向。
+
+### README / 角色身份与差异化
+
+- `assets/character-differentiation-board.png`
+- 作用：展示不同角色的结构性面部差异和多视角设计概念。此图仅作说明；实际运行必须一名角色一张独立角色板。
 
 ### README / 文档资产与装饰图标
 

@@ -19,7 +19,7 @@ $CODEX_HOME/skills/seedance-cinemanga-director
 ## OpenClaw Git 安装
 
 ```bash
-openclaw skills install git:why200212200212-cmyk/Seedance-cinemanga-director@main
+openclaw skills install git:juebai-aigc/Seedance-cinemanga-director@main
 ```
 
 需要本机已安装兼容的 OpenClaw CLI；本仓库的校验器不验证该第三方命令的安装、认证或网络行为。
@@ -27,7 +27,7 @@ openclaw skills install git:why200212200212-cmyk/Seedance-cinemanga-director@mai
 ## 本地安装
 
 ```bash
-git clone https://github.com/why200212200212-cmyk/Seedance-cinemanga-director.git
+git clone https://github.com/juebai-aigc/Seedance-cinemanga-director.git
 openclaw skills install ./Seedance-cinemanga-director
 ```
 

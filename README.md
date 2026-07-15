@@ -1,6 +1,6 @@
 # Seedance Cinemanga Director
 
-[![Validate skill](https://github.com/why200212200212-cmyk/Seedance-cinemanga-director/actions/workflows/validate.yml/badge.svg)](https://github.com/why200212200212-cmyk/Seedance-cinemanga-director/actions/workflows/validate.yml)
+[![Validate skill](https://github.com/juebai-aigc/Seedance-cinemanga-director/actions/workflows/validate.yml/badge.svg)](https://github.com/juebai-aigc/Seedance-cinemanga-director/actions/workflows/validate.yml)
 
 <p align="center">
   <strong>面向即梦 Seedance 的双影视级视频导演 Skill</strong><br>
@@ -18,7 +18,7 @@
 
 `Seedance Cinemanga Director` 将中文小说、剧本、剧情段落、分镜笔记和参考图描述，转换为可直接用于即梦 Seedance 的导演级视频提示词。
 
-它不是普通的“提示词润色器”，而是一套带有镜头合约、人物过滤、对白时长、表演调度、空间连续、道具追踪、光影锁定和尾帧接力能力的导演工作流。
+它不是普通的“提示词润色器”，而是一套先分析剧情、再按剧情需要选择标准故事板、九宫格、二十五宫格或智能宫格，并生成 Seedance 2.0 可准确参考的详细分镜图的导演工作流；同时包含角色多视角设计、镜头合约、人物过滤、角色外貌差异化、对白时长、表演调度、空间连续、道具追踪、光影锁定和尾帧接力能力。
 
 ## 视觉预览
 
@@ -36,6 +36,11 @@
 - **双输出模式**：完整15秒单条 / 连续多条4–15秒；
 - **原台词锁定**：不改写、不删减、不重排；
 - **必要人物过滤**：只保留当前剧情真正需要的角色；
+- **剧情分析优先**：先拆解剧情事实、台词、人物、节拍和时间预算；
+- **自适应分镜**：按剧情需要选择标准故事板、九宫格、二十五宫格或智能宫格，不为凑格数改变剧情；
+- **详细分镜图**：标明阅读顺序、镜头序号和 Seedance 2.0 执行所需的镜头、角色、动作、声音、光影与连续性信息；
+- **角色多视角设计**：每名必要角色至少输出正面、左侧面、右侧面和背面；
+- **人物外貌差异化**：同剧本不同角色禁止相同或高度相似的模板脸，双胞胎等明确剧情需要除外；
 - **导演级镜头语言**：景别、机位、轴线、焦点、运镜、结束构图；
 - **表演与走位**：站位、面对关系、动作顺序、视线和手部状态；
 - **对白时长校验**：为口型、停顿、反应和尾帧保留真实时间；
@@ -57,7 +62,7 @@
 ### OpenClaw / AgentSkills Git 安装
 
 ```bash
-openclaw skills install git:why200212200212-cmyk/Seedance-cinemanga-director@main
+openclaw skills install git:juebai-aigc/Seedance-cinemanga-director@main
 ```
 
 此命令需要本机已安装兼容的 OpenClaw CLI；本仓库的本地校验不验证第三方 CLI 的安装与网络行为。
@@ -65,7 +70,7 @@ openclaw skills install git:why200212200212-cmyk/Seedance-cinemanga-director@mai
 ### 本地目录安装
 
 ```bash
-git clone https://github.com/why200212200212-cmyk/Seedance-cinemanga-director.git
+git clone https://github.com/juebai-aigc/Seedance-cinemanga-director.git
 openclaw skills install ./Seedance-cinemanga-director
 ```
 
@@ -158,6 +163,21 @@ python scripts/seedance_client.py create --prompt-file prompt.txt --wait --outpu
 - `nine-grid-example.png`：说明九宫格阅读顺序、箭头衔接与节奏推进；
 - `twenty-five-grid-example.png`：说明长段落、多镜头和复杂节奏的连续铺排。
 
+### 新增工作流与识别规范图
+
+| 自适应分镜工作流 | 独立角色差异化设计 | AI可辨识运镜路线 |
+|---|---|---|
+| ![Adaptive Storyboard Workflow](assets/adaptive-storyboard-workflow.png) | ![Character Differentiation Board](assets/character-differentiation-board.png) | ![AI Readable Camera Routes](assets/ai-readable-camera-routes.png) |
+
+<p align="center">
+  <img src="assets/segmented-camera-path.png" alt="Segmented Camera Path" width="100%">
+</p>
+
+- `adaptive-storyboard-workflow.png`：展示剧情分析如何按需要分流到标准故事板、九宫格、二十五宫格或智能宫格；
+- `character-differentiation-board.png`：用于文档说明不同角色的结构性面部差异；它是装饰性对比图，运行时仍要求每个角色使用单独角色板；
+- `ai-readable-camera-routes.png`：展示CAM、ACT、GAZE、FOCUS、LIGHT和READ路线代码、箭头及图例。
+- `segmented-camera-path.png`：展示多段运镜的连续节点、转向后的后续箭头、速度、机位高度以及同步俯视/侧视路线。
+
 ## 文档资产与装饰图标
 
 下图适合作为 README 和文档页中的“资产板 / 装饰图标板”，帮助用户快速理解功能模块。
@@ -207,6 +227,10 @@ Seedance-cinemanga-director/
 │   ├── workflow-architecture.png
 │   ├── prompt-output-system.png
 │   ├── visual-assets-qa.png
+│   ├── adaptive-storyboard-workflow.png
+│   ├── character-differentiation-board.png
+│   ├── ai-readable-camera-routes.png
+│   ├── segmented-camera-path.png
 │   ├── icons-board.png
 │   ├── storyboard-example.png
 │   ├── nine-grid-example.png
@@ -219,9 +243,12 @@ Seedance-cinemanga-director/
 │   └── visual-showcase.md
 ├── templates/
 │   ├── single-15s.md
-│   └── multi-clip.md
+│   ├── multi-clip.md
+│   └── storyboard-board.md
 ├── references/
 │   ├── continuity-rules.md
+│   ├── character-design.md
+│   ├── storyboard-design.md
 │   ├── quality-checklist.md
 │   ├── style-modes.md
 │   ├── dialogue-timing.md
@@ -246,10 +273,12 @@ Seedance-cinemanga-director/
 
 ## 输出约束
 
-输出分为“导演方案（审阅用）”与“可复制提示词”两层。完整15秒模式使用：
+输出依次包含剧情分析、分镜形式决策、独立角色板与身份注册表、详细分镜图、导演方案和可复制提示词。完整15秒模式保留以下边界标记：
 
 ```text
 _::~OUTPUT_START::~_
+剧情分析与分镜形式决策
+独立角色板、角色身份注册表与详细分镜图
 导演方案（不粘贴）
 可复制图片提示词
 ===
@@ -280,6 +309,10 @@ GitHub Actions 会在每次推送到 `main`、Pull Request 和手动触发时，
 - **导演工作流详图**：`assets/workflow-architecture.png`
 - **提示词输出系统**：`assets/prompt-output-system.png`
 - **视觉资产与质检**：`assets/visual-assets-qa.png`
+- **自适应分镜工作流**：`assets/adaptive-storyboard-workflow.png`
+- **独立角色差异化说明**：`assets/character-differentiation-board.png`
+- **AI可辨识运镜路线**：`assets/ai-readable-camera-routes.png`
+- **分段运镜节点详图**：`assets/segmented-camera-path.png`
 - **分镜板示例**：`assets/storyboard-example.png`
 - **九宫格示例**：`assets/nine-grid-example.png`
 - **二十五格示例**：`assets/twenty-five-grid-example.png`

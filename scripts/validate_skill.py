@@ -19,7 +19,10 @@ REQUIRED_FILES = [
     ".github/workflows/validate.yml",
     "templates/single-15s.md",
     "templates/multi-clip.md",
+    "templates/storyboard-board.md",
     "references/continuity-rules.md",
+    "references/character-design.md",
+    "references/storyboard-design.md",
     "references/quality-checklist.md",
     "references/style-modes.md",
     "references/dialogue-timing.md",
@@ -53,6 +56,10 @@ REQUIRED_FILES = [
     "assets/twenty-five-grid-example.png",
     "assets/visual-assets-qa.png",
     "assets/workflow-architecture.png",
+    "assets/adaptive-storyboard-workflow.png",
+    "assets/character-differentiation-board.png",
+    "assets/ai-readable-camera-routes.png",
+    "assets/segmented-camera-path.png",
     "agents/openai.yaml",
 ]
 
@@ -89,32 +96,37 @@ def main() -> None:
         fail("SKILL.md frontmatter may only contain name and description")
 
     single = (ROOT / "templates/single-15s.md").read_text(encoding="utf-8")
-    for marker in ["_::~OUTPUT_START::~_", "_::~OUTPUT_END::~_", "完整15秒"]:
+    for marker in ["_::~OUTPUT_START::~_", "_::~OUTPUT_END::~_", "完整15秒", "剧情分析", "分镜形式决策", "角色多视角设计", "详细分镜图"]:
         if marker not in single:
             fail(f"single template missing marker: {marker}")
 
     multi = (ROOT / "templates/multi-clip.md").read_text(encoding="utf-8")
-    for marker in ["_::~CLIP_START::~_", "_::~CLIP_END::~_", "尾帧接力合约"]:
+    for marker in ["_::~CLIP_START::~_", "_::~CLIP_END::~_", "尾帧接力合约", "全局剧情分析", "分镜形式决策", "全局角色多视角设计", "全局详细分镜图"]:
         if marker not in multi:
             fail(f"multi template missing marker: {marker}")
 
-    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛"]
+    storyboard = (ROOT / "templates/storyboard-board.md").read_text(encoding="utf-8")
+    for marker in ["标准故事板", "九宫格", "二十五宫格", "智能宫格", "阅读顺序", "镜头使用清单", "USE", "REFERENCE-ONLY", "SKIP", "每格镜头卡", "Seedance 2.0 参考重点", "CAM-A0", "CAM-A1", "CAM-A-END", "HOLD", "俯视/侧视路线小图", "GAZE", "FOCUS", "LIGHT", "READ"]:
+        if marker not in storyboard:
+            fail(f"storyboard template missing marker: {marker}")
+
+    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛", "剧情分析", "智能宫格", "镜头序号", "Seedance 2.0", "角色差异化", "多视角设计", "永久角色ID", "独立参考图编号", "高度相似"]
     for term in core_terms:
         if term not in skill:
             fail(f"SKILL.md missing core rule: {term}")
 
     single_example = (ROOT / "examples/example-output-single.md").read_text(encoding="utf-8")
-    for marker in ["导演方案（审阅用，不粘贴到生成器）", "可复制图片提示词", "可复制视频提示词", "摄影与物理合同", "固定服装"]:
+    for marker in ["剧情分析", "分镜形式决策", "角色多视角设计", "角色身份注册表", "详细分镜图", "CHAR-001", "导演方案（审阅用，不粘贴到生成器）", "可复制图片提示词", "可复制视频提示词", "摄影与物理合同", "固定服装"]:
         if marker not in single_example:
             fail(f"single example missing field: {marker}")
 
     multi_example = (ROOT / "examples/example-output-multi-clip.md").read_text(encoding="utf-8")
-    for marker in ["全局声音规则", "全局摄影与物理规则", "转场类型", "状态账本更新", "可复制视频提示词", "负面约束"]:
+    for marker in ["全局剧情分析", "分镜形式决策", "全局角色多视角设计", "全局角色身份注册表", "全局详细分镜图", "CHAR-001", "全局声音规则", "全局摄影与物理规则", "转场类型", "状态账本更新", "可复制视频提示词", "负面约束"]:
         if marker not in multi_example:
             fail(f"multi example missing field: {marker}")
 
     acceptance_cases = (ROOT / "tests/acceptance-cases.md").read_text(encoding="utf-8")
-    for marker in ["对白过长且明确禁止拆分", "有依据的换场", "匹配剪辑或声音桥", "镜头复杂度过载", "模式隔离", "平台能力未知"]:
+    for marker in ["对白过长且明确禁止拆分", "剧情分析、自适应分镜与多人差异化", "双胞胎例外", "智能宫格", "AI可辨识运镜箭头路线", "独立角色板与身份绑定", "多段转向运镜路线", "四种分镜形式的镜头取舍", "有依据的换场", "匹配剪辑或声音桥", "镜头复杂度过载", "模式隔离", "平台能力未知"]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
 
@@ -143,6 +155,15 @@ def main() -> None:
     for marker in ["display_name:", "short_description:", "default_prompt:", "$seedance-cinemanga-director"]:
         if marker not in openai_yaml:
             fail(f"agents/openai.yaml missing field: {marker}")
+
+    forbidden_repository_strings = ["why200212200212" + "-cmyk", "sk" + "lii"]
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in {".md", ".yaml", ".yml", ".py", ".txt"}:
+            continue
+        text = path.read_text(encoding="utf-8")
+        for forbidden in forbidden_repository_strings:
+            if forbidden in text:
+                fail(f"obsolete repository string in {path.relative_to(ROOT)}: {forbidden}")
 
     png_hashes: dict[str, list[str]] = {}
     for path in (ROOT / "assets").glob("*.png"):

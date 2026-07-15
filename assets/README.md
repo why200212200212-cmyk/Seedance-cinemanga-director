@@ -20,6 +20,9 @@
 - `storyboard-example.png`：标准六镜分镜执行板示例；
 - `nine-grid-example.png`：九宫格分镜示例；
 - `twenty-five-grid-example.png`：二十五格分镜示例。
+- `adaptive-storyboard-workflow.png`：剧情分析到标准、九宫格、二十五宫格和智能宫格的自适应分流；
+- `ai-readable-camera-routes.png`：CAM、ACT、GAZE、FOCUS、LIGHT、READ路线与箭头图例。
+- `segmented-camera-path.png`：分段运镜节点、逐段箭头、转向后方向和俯视/侧视同步路线。
 
 适合放在 README 的“分镜板示例资源”部分，作为用户理解输出形态的视觉样例。
 
@@ -28,6 +31,7 @@
 - `icons-board.png`：小图标资产板，适合用于 README 的“文档资产与装饰图标”；
 - `prompt-output-system.png`：单条与多条提示词交付结构图；
 - `visual-assets-qa.png`：视觉资产与连续性质检总览。
+- `character-differentiation-board.png`：不同角色结构性面部差异的文档说明图；仅作对比与装饰，不替代运行时每个角色的独立角色板。
 
 ## 放置原则
 
