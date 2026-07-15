@@ -453,6 +453,64 @@ def print_json(value: dict[str, Any]) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True))
 
 
+def build_doctor_report(
+    api_key: str,
+    model: str,
+    base_url: str,
+    env_file: Path,
+) -> dict[str, Any]:
+    """Return a secret-free local readiness report without making a network call."""
+
+    checks: dict[str, dict[str, Any]] = {
+        "python": {
+            "ok": sys.version_info >= (3, 10),
+            "detail": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+        },
+        "env_file": {
+            "ok": env_file.is_file(),
+            "detail": (
+                "found"
+                if env_file.is_file()
+                else "not found; environment variables may still be used"
+            ),
+        },
+        "model": {
+            "ok": bool(model.strip()),
+            "detail": (
+                "configured" if model.strip() else "missing SEEDANCE_MODEL or --model"
+            ),
+        },
+        "api_key": {
+            "ok": bool(api_key.strip()),
+            "detail": (
+                "configured"
+                if api_key.strip()
+                else "missing ARK_API_KEY or SEEDANCE_API_KEY"
+            ),
+        },
+    }
+    try:
+        normalized_base_url = normalize_base_url(base_url)
+    except SeedanceError as exc:
+        checks["base_url"] = {"ok": False, "detail": str(exc)}
+        normalized_base_url = None
+    else:
+        checks["base_url"] = {"ok": True, "detail": normalized_base_url}
+
+    ready_for_dry_run = bool(
+        checks["python"]["ok"]
+        and checks["model"]["ok"]
+        and checks["base_url"]["ok"]
+    )
+    return {
+        "mode": "offline",
+        "network_called": False,
+        "ready_for_dry_run": ready_for_dry_run,
+        "ready_for_network": bool(ready_for_dry_run and checks["api_key"]["ok"]),
+        "checks": checks,
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Create and manage Seedance tasks through Volcengine Ark."
@@ -466,6 +524,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--request-timeout", type=float, default=60.0)
     subparsers = parser.add_subparsers(dest="command", required=True)
+
+    doctor_parser = subparsers.add_parser(
+        "doctor",
+        help="check local configuration; use --remote for one read-only API request",
+    )
+    doctor_parser.add_argument(
+        "--remote",
+        action="store_true",
+        help="verify credentials with a read-only task-list request",
+    )
 
     create_parser = subparsers.add_parser(
         "create", help="create a video generation task"
@@ -532,6 +600,38 @@ def main(argv: list[str] | None = None) -> int:
             "SEEDANCE_API_KEY", ""
         )
         model = args.model or os.environ.get("SEEDANCE_MODEL", "")
+
+        if args.command == "doctor":
+            report = build_doctor_report(
+                api_key,
+                model,
+                base_url,
+                Path(args.env_file),
+            )
+            if args.remote:
+                report["mode"] = "remote-read-only"
+                if not report["ready_for_network"]:
+                    report["remote"] = {
+                        "ok": False,
+                        "detail": "local configuration is incomplete; no network request was made",
+                    }
+                else:
+                    try:
+                        client = SeedanceClient(api_key, base_url, args.request_timeout)
+                        client.list_tasks(page_size=1)
+                    except (SeedanceError, OSError) as exc:
+                        report["network_called"] = True
+                        report["remote"] = {"ok": False, "detail": str(exc)}
+                    else:
+                        report["network_called"] = True
+                        report["remote"] = {
+                            "ok": True,
+                            "detail": "read-only task-list request succeeded",
+                        }
+            print_json(report)
+            if args.remote:
+                return 0 if report.get("remote", {}).get("ok") else 2
+            return 0 if report["ready_for_network"] else 2
 
         if args.command == "create":
             if args.content_json:

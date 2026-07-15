@@ -1,6 +1,6 @@
 # Codex、OpenClaw 与其他 AI 接入
 
-此仓库是平台无关的 AgentSkill。AI 负责完成剧情分析、独立角色板、身份注册、自适应分镜和导演提示词编译，`scripts/seedance_client.py` 负责调用火山方舟异步视频 API。两层之间只有明确的“当前条可复制视频提示词 + 执行素材清单”契约。
+此仓库是平台无关的 AgentSkill。AI 负责完成剧情分析、独立角色板、身份注册、自适应分镜和导演提示词编译，`scripts/seedance_client.py` 负责调用下载者自行配置的火山方舟异步视频 API。仓库不携带用户密钥、账户权限或固定推理接入点；两层之间只有明确的“当前条可复制视频提示词 + 执行素材清单”契约。
 
 ## 最低运行条件
 
@@ -15,7 +15,7 @@
 
 ## OpenClaw
 
-按 README 的 Git 或本地目录方式安装 Skill。OpenClaw 代理遵循同一 `SKILL.md`，并通过 Python 脚本执行 API。不同 OpenClaw 版本的命令授权与环境变量注入方式可能不同，以所用版本文档为准；本仓库不要求专有 OpenClaw API。
+按 README 的 Git 或本地目录方式安装 Skill，再用 `openclaw skills list` 与 `openclaw skills check` 确认已发现且符合运行条件。OpenClaw 代理遵循同一 `SKILL.md`，并通过 Python 脚本执行用户自行接入的 API。不同 OpenClaw 版本的命令授权与环境变量注入方式可能不同，以[官方 Skills 文档](https://docs.openclaw.ai/skills)和[官方 CLI 文档](https://docs.openclaw.ai/cli/skills)为准；本仓库不要求专有 OpenClaw API。
 
 ## 其他 AI / Agent
 
@@ -32,3 +32,18 @@
 - 轮询只接受官方任务状态，不伪造完成结果。
 
 完整编排规则见 `references/runtime-orchestration.md`，API 命令见 `docs/api-integration.md`。
+
+## 宿主工具映射
+
+宿主若要把脚本封装为自己的工具，应保持以下最小能力与权限边界，不需要改变导演流程：
+
+| 能力 | 脚本命令 | 网络/费用边界 |
+|---|---|---|
+| 本地自检 | `doctor` | 默认不联网，不产生费用 |
+| 只读连通性 | `doctor --remote` | 仅由用户主动触发，读取任务列表 |
+| 请求预览 | `create ... --dry-run` | 不联网，不创建任务 |
+| 创建视频 | `create ...` | 可能计费，必须有用户明确生成指令 |
+| 查询/恢复 | `status`、`list`、`wait` | 只读任务状态；不重发创建请求 |
+| 取消任务 | `cancel` | 改变远程任务状态，应确认目标任务ID |
+
+无论宿主采用 shell tool、函数调用还是自定义插件，都从宿主自己的秘密存储或环境变量注入凭证，不把密钥放进提示词、工具参数或 Skill 文件。

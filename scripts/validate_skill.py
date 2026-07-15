@@ -74,6 +74,8 @@ REQUIRED_FILES = [
     "tests/acceptance-cases.md",
     "tests/test_seedance_client.py",
     "scripts/seedance_client.py",
+    "scripts/build_skill_package.py",
+    "tests/test_build_skill_package.py",
     "assets/README.md",
     "assets/cover-banner.png",
     "assets/feature-overview.png",
@@ -130,6 +132,14 @@ def main() -> None:
     ]
     if keys != ["name", "description"]:
         fail("SKILL.md frontmatter may only contain name and description")
+
+    description_match = re.search(r'^description:\s*"(.*)"$', frontmatter, re.M)
+    if not description_match:
+        fail("SKILL.md description must be a single quoted line")
+    if len(description_match.group(1)) > 500:
+        fail("SKILL.md description is too long for always-loaded metadata")
+    if len(skill.splitlines()) > 500:
+        fail("SKILL.md must stay below 500 lines; move details to references")
 
     single = (ROOT / "templates/single-15s.md").read_text(encoding="utf-8")
     for marker in [
@@ -423,7 +433,9 @@ def main() -> None:
         "actions/checkout@v6",
         "actions/setup-python@v6",
         "python -m unittest discover",
+        "doctor",
         "--dry-run",
+        "build_skill_package.py",
         "python scripts/validate_skill.py",
     ]:
         if marker not in workflow:
@@ -466,6 +478,9 @@ def main() -> None:
         "math.isfinite",
         "list_tasks",
         "filter.task_ids",
+        "build_doctor_report",
+        '"doctor"',
+        '"--remote"',
     ]:
         if marker not in api_client:
             fail(f"API client missing contract marker: {marker}")
@@ -480,6 +495,7 @@ def main() -> None:
         "详细分镜图",
         "执行素材清单",
         "--dry-run",
+        "doctor --remote",
         "不得无上限自动重试",
     ]:
         if marker not in runtime:
@@ -521,9 +537,31 @@ def main() -> None:
             fail(f"Seedance API contract missing material filter: {marker}")
 
     agent_integration = (ROOT / "docs/agent-integration.md").read_text(encoding="utf-8")
-    for marker in ["执行素材清单", "独立角色板", "永久ID", "CAM节点", "SKIP"]:
+    for marker in [
+        "执行素材清单",
+        "独立角色板",
+        "永久ID",
+        "CAM节点",
+        "SKIP",
+        "宿主工具映射",
+        "doctor --remote",
+    ]:
         if marker not in agent_integration:
             fail(f"agent integration missing execution boundary: {marker}")
+
+    package_builder = (ROOT / "scripts/build_skill_package.py").read_text(
+        encoding="utf-8"
+    )
+    for marker in [
+        "runtime_files",
+        "SKILL.md",
+        '"agents" / "openai.yaml"',
+        "seedance_client.py",
+        "FIXED_TIMESTAMP",
+        "sha256",
+    ]:
+        if marker not in package_builder:
+            fail(f"minimal package builder missing contract marker: {marker}")
 
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in [
