@@ -19,6 +19,12 @@
 - `assets/system-architecture.png`
 - 作用：展示从输入材料到连续性质检的完整流程。
 
+### README / 按需知识库与 Seedance 素材绑定
+
+- `assets/knowledge-routing-map.png`：展示剧情分析后如何只加载当前镜头需要的参考资料；
+- `assets/seedance-multimodal-binding.png`：展示独立角色板、场景、分镜页、可选运镜参考与音频参考的绑定和SKIP过滤。
+- 作用：解释知识调用与运行时素材边界；两图都只用于文档展示，不提交生成端。
+
 ### README / 深度架构与质量说明
 
 - `assets/workflow-architecture.png`：十阶段导演工作流与仓库结构；

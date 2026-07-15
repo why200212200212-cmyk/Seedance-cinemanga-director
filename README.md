@@ -56,6 +56,7 @@
 - **真人摄影约束**：明确焦段、机位、设备、景深、曝光、光源、演员微表演和现场物理；
 - **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
 - **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、分镜页、场景板和尾帧，排除SKIP与装饰图。
+- **按需导演知识库**：内置16份分镜、运镜、构图、剪辑、光影、调度、景深和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
 
 ## 快速安装
 
@@ -153,6 +154,20 @@ python scripts/seedance_client.py create --prompt-file prompt.txt --wait --outpu
 |---|---|---|
 | ![Workflow Architecture](assets/workflow-architecture.png) | ![Prompt Output System](assets/prompt-output-system.png) | ![Visual Assets QA](assets/visual-assets-qa.png) |
 
+## 按需知识库与 Seedance 素材绑定
+
+知识库只在剧情分析和分镜形式决策之后，按当前镜头问题加载必要资料；平台案例、词典和旧参数不会覆盖核心规则。
+
+<p align="center">
+  <img src="assets/knowledge-routing-map.png" alt="On-demand Director Knowledge Routing" width="100%">
+</p>
+
+进入 Seedance 2.0 执行时，每名角色继续使用独立角色板，并按执行素材清单绑定场景、分镜页、可选运镜参考与音频参考。`SKIP` 与装饰图不提交生成端。
+
+<p align="center">
+  <img src="assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
+</p>
+
 ## 分镜板示例资源
 
 这几张图更适合放在 **示例展示区**，用来说明本 Skill 适配的分镜板类型与视觉组织方式：
@@ -235,6 +250,8 @@ Seedance-cinemanga-director/
 │   ├── character-differentiation-board.png
 │   ├── ai-readable-camera-routes.png
 │   ├── segmented-camera-path.png
+│   ├── knowledge-routing-map.png
+│   ├── seedance-multimodal-binding.png
 │   ├── icons-board.png
 │   ├── storyboard-example.png
 │   ├── nine-grid-example.png
@@ -261,7 +278,9 @@ Seedance-cinemanga-director/
 │   ├── live-action-cinematography.md
 │   ├── runtime-orchestration.md
 │   ├── seedance-api.md
-│   └── prompt-compiler.md
+│   ├── prompt-compiler.md
+│   ├── knowledge-00-index.md
+│   └── knowledge-01...15（按需导演参考知识库）
 ├── examples/
 │   ├── api-prompt.txt
 │   ├── example-input-script.md
@@ -317,6 +336,8 @@ GitHub Actions 会在每次推送到 `main`、Pull Request 和手动触发时，
 - **独立角色差异化说明**：`assets/character-differentiation-board.png`
 - **AI可辨识运镜路线**：`assets/ai-readable-camera-routes.png`
 - **分段运镜节点详图**：`assets/segmented-camera-path.png`
+- **导演知识库按需调用地图**：`assets/knowledge-routing-map.png`
+- **Seedance多模态执行素材绑定**：`assets/seedance-multimodal-binding.png`
 - **分镜板示例**：`assets/storyboard-example.png`
 - **九宫格示例**：`assets/nine-grid-example.png`
 - **二十五格示例**：`assets/twenty-five-grid-example.png`

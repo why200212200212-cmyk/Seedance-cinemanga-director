@@ -31,6 +31,10 @@
 
 ### 3. 规则层：`references/`
 
+<p align="center">
+  <img src="../assets/knowledge-routing-map.png" alt="On-demand Director Knowledge Routing" width="100%">
+</p>
+
 - 连续性；
 - 质量检查；
 - 风格模式；
@@ -41,8 +45,9 @@
 - 3D影视级制作；
 - 真人摄影与表演；
 - 提示词编译与冲突消解。
+- 16份按需导演参考知识库：工作流、镜头语言、运镜、剪辑、光影、接触风险、竖屏、提示词词典、场面调度、景深、构图与平台资料。
 
-规则文件可独立迭代，避免主入口无限膨胀。
+规则文件可独立迭代，避免主入口无限膨胀。`knowledge-00-index.md` 负责路由和优先级；`knowledge-01...15` 只提供参考，不升级为硬规则，也不得一次性全部加载。
 
 ### 4. 示例层：`examples/`
 
@@ -74,6 +79,8 @@
   ↓
 分镜形式决策（标准 / 九宫格 / 二十五宫格 / 智能宫格）
   ↓
+按镜头问题加载所需知识参考（不改变既定剧情与流程）
+  ↓
 角色多视角设计与差异化锁定
   ↓
 状态账本：身份 / 道具 / 空间 / 轴线 / 光影 / 尾帧
@@ -99,6 +106,12 @@ CAM / ACT / GAZE / FOCUS / LIGHT路线规划
 API dry-run与可选生成
 ```
 
+执行素材的独立身份绑定与过滤关系如下。此图用于解释角色板、场景、分镜页、运镜参考和音频参考如何进入执行清单，不替代文字合同。
+
+<p align="center">
+  <img src="../assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
+</p>
+
 ## 与视觉资产的对应关系
 
 - `cover-banner.png`：品牌封面；
@@ -111,6 +124,8 @@ API dry-run与可选生成
 - `character-differentiation-board.png`：角色差异化说明（非运行时合并角色板）；
 - `ai-readable-camera-routes.png`：AI可辨识运镜与动作路线语法；
 - `segmented-camera-path.png`：多段运镜节点、逐段箭头与同步俯视/侧视路线；
+- `knowledge-routing-map.png`：按任务选择参考知识、避免全量加载；
+- `seedance-multimodal-binding.png`：独立角色板、分镜、场景、运镜与音频参考的执行绑定；
 - `icons-board.png`：视觉语言与模块化图标资产板。
 - `workflow-architecture.png`：十阶段工作流与仓库结构详图；
 - `prompt-output-system.png`：单条、多条及尾帧交付结构；
@@ -121,6 +136,7 @@ API dry-run与可选生成
 新增规则时：
 
 - 通用硬规则放 `references/`；
+- 外部方法资料放 `references/knowledge-*`，并在 `knowledge-00-index.md` 登记适用任务、优先级和时效边界；
 - 新输出形态放 `templates/`；
 - 可复现用例放 `examples/` 或 `tests/`；
 - 主入口只增加导航和最高优先级原则；

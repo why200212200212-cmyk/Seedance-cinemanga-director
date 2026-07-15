@@ -8,6 +8,25 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 
+KNOWLEDGE_FILES = [
+    "references/knowledge-00-index.md",
+    "references/knowledge-01-storyboard-workflow.md",
+    "references/knowledge-02-shot-language-basics.md",
+    "references/knowledge-03-camera-movement-encyclopedia.md",
+    "references/knowledge-04-ai-camera-prompting.md",
+    "references/knowledge-05-visual-narrative-editing.md",
+    "references/knowledge-06-lighting-and-color.md",
+    "references/knowledge-07-physical-contact-workarounds.md",
+    "references/knowledge-08-vertical-9x16.md",
+    "references/knowledge-09-director-prompt-dictionary.md",
+    "references/knowledge-10-blocking-and-staging.md",
+    "references/knowledge-11-depth-of-field.md",
+    "references/knowledge-12-shot-composition.md",
+    "references/knowledge-13-seedance-2-guide.md",
+    "references/knowledge-14-runway-gen4-camera-guide.md",
+    "references/knowledge-15-video-tool-comparison.md",
+]
+
 REQUIRED_FILES = [
     "SKILL.md",
     "README.md",
@@ -60,8 +79,10 @@ REQUIRED_FILES = [
     "assets/character-differentiation-board.png",
     "assets/ai-readable-camera-routes.png",
     "assets/segmented-camera-path.png",
+    "assets/knowledge-routing-map.png",
+    "assets/seedance-multimodal-binding.png",
     "agents/openai.yaml",
-]
+] + KNOWLEDGE_FILES
 
 
 def fail(message: str) -> None:
@@ -110,10 +131,36 @@ def main() -> None:
         if marker not in storyboard:
             fail(f"storyboard template missing marker: {marker}")
 
-    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛", "剧情分析", "分镜形式决策", "角色设计与注册", "镜头拆解与取舍", "路线规划", "详细分镜图", "提示词编译", "智能宫格", "镜头序号", "Seedance 2.0", "角色差异化", "多视角设计", "永久角色ID", "独立参考图编号", "视觉资产与视频执行门槛", "角色板待生成", "分镜图待生成", "高度相似"]
+    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛", "剧情分析", "分镜形式决策", "角色设计与注册", "镜头拆解与取舍", "路线规划", "详细分镜图", "提示词编译", "智能宫格", "镜头序号", "Seedance 2.0", "角色差异化", "多视角设计", "永久角色ID", "独立参考图编号", "视觉资产与视频执行门槛", "角色板待生成", "分镜图待生成", "高度相似", "导演知识库路由（仅供参考）", "不要一次加载全部知识库"]
     for term in core_terms:
         if term not in skill:
             fail(f"SKILL.md missing core rule: {term}")
+
+    knowledge_index = (ROOT / KNOWLEDGE_FILES[0]).read_text(encoding="utf-8")
+    for marker in ["使用优先级", "按任务读取", "调用约束", "不要一次读取全部资料", "当前官方能力"]:
+        if marker not in knowledge_index:
+            fail(f"knowledge index missing routing boundary: {marker}")
+
+    for relative_path in KNOWLEDGE_FILES:
+        filename = Path(relative_path).name
+        if filename not in skill:
+            fail(f"SKILL.md must link knowledge file directly: {filename}")
+
+    for relative_path in KNOWLEDGE_FILES[1:]:
+        filename = Path(relative_path).name
+        if filename not in knowledge_index:
+            fail(f"knowledge index missing file: {filename}")
+
+    for relative_path in KNOWLEDGE_FILES[1:]:
+        reference_text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for marker in ["仓库接入说明", "## 文档导航"]:
+            if marker not in reference_text:
+                fail(f"knowledge reference missing advisory structure in {relative_path}: {marker}")
+
+    seedance_knowledge = (ROOT / "references/knowledge-13-seedance-2-guide.md").read_text(encoding="utf-8")
+    for marker in ["官方核验摘要", "最多 9 张图片", "3 段视频", "3 段音频", "直接参考文字分镜", "当前生成端为准"]:
+        if marker not in seedance_knowledge:
+            fail(f"Seedance 2.0 knowledge missing verified boundary: {marker}")
 
     single_example = (ROOT / "examples/example-output-single.md").read_text(encoding="utf-8")
     for marker in ["剧情分析", "分镜形式决策", "镜头使用清单", "USE", "SKIP", "角色多视角设计", "角色身份注册表", "详细分镜图", "CHAR-001", "CAM-A0", "导演方案（审阅用，不粘贴到生成器）", "可复制图片提示词", "可复制视频提示词", "摄影与物理合同", "固定服装"]:
@@ -126,7 +173,7 @@ def main() -> None:
             fail(f"multi example missing field: {marker}")
 
     acceptance_cases = (ROOT / "tests/acceptance-cases.md").read_text(encoding="utf-8")
-    for marker in ["对白过长且明确禁止拆分", "剧情分析、自适应分镜与多人差异化", "双胞胎例外", "智能宫格", "AI可辨识运镜箭头路线", "独立角色板与身份绑定", "多段转向运镜路线", "四种分镜形式的镜头取舍", "有依据的换场", "匹配剪辑或声音桥", "镜头复杂度过载", "模式隔离", "平台能力未知"]:
+    for marker in ["对白过长且明确禁止拆分", "剧情分析、自适应分镜与多人差异化", "双胞胎例外", "智能宫格", "AI可辨识运镜箭头路线", "独立角色板与身份绑定", "多段转向运镜路线", "四种分镜形式的镜头取舍", "有依据的换场", "匹配剪辑或声音桥", "镜头复杂度过载", "模式隔离", "平台能力未知", "导演知识库按需调用", "Seedance 2.0分镜参考绑定"]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
 
@@ -176,7 +223,7 @@ def main() -> None:
         if marker not in openai_yaml:
             fail(f"agents/openai.yaml missing field: {marker}")
 
-    forbidden_repository_strings = ["why200212200212" + "-cmyk", "sk" + "lii"]
+    forbidden_repository_strings = ["why200212200212" + "-cmyk", "sk" + "lii", "C:\\Users\\AS\\Desktop\\AI导演智能体开发"]
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in {".md", ".yaml", ".yml", ".py", ".txt"}:
             continue
