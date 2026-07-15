@@ -50,6 +50,7 @@ REQUIRED_FILES = [
     "templates/single-15s.md",
     "templates/multi-clip.md",
     "templates/storyboard-board.md",
+    "templates/revision-preview.md",
     "references/continuity-rules.md",
     "references/character-design.md",
     "references/storyboard-design.md",
@@ -62,6 +63,7 @@ REQUIRED_FILES = [
     "references/prompt-compiler.md",
     "references/runtime-orchestration.md",
     "references/seedance-api.md",
+    "references/targeted-regeneration.md",
     "examples/api-prompt.txt",
     "examples/example-input-script.md",
     "examples/example-output-single.md",
@@ -152,6 +154,8 @@ def main() -> None:
         "详细分镜图",
         "0.0–15.0秒",
         "逐镜起止时间",
+        "可修订资产索引",
+        "VIDEO-VID-01",
     ]:
         if marker not in single:
             fail(f"single template missing marker: {marker}")
@@ -168,6 +172,8 @@ def main() -> None:
         "逐条列出",
         "本条分镜形式与执行分镜板",
         "MAX 15.0s",
+        "全局可修订资产索引",
+        "本条可修订定位",
     ]:
         if marker not in multi:
             fail(f"multi template missing marker: {marker}")
@@ -202,6 +208,21 @@ def main() -> None:
     ]:
         if marker not in storyboard:
             fail(f"storyboard template missing marker: {marker}")
+
+    revision_preview = (ROOT / "templates/revision-preview.md").read_text(
+        encoding="utf-8"
+    )
+    for marker in [
+        "_::~REVISION_PREVIEW_START::~_",
+        "_::~REVISION_PREVIEW_END::~_",
+        "AWAITING_USER",
+        "稳定ASSET-ID",
+        "新版完整提示词",
+        "继续生成",
+        "REVIEW_REQUIRED",
+    ]:
+        if marker not in revision_preview:
+            fail(f"revision preview template missing marker: {marker}")
 
     core_terms = [
         "原台词",
@@ -238,6 +259,9 @@ def main() -> None:
         "以当前一条4–15秒视频为分镜计算单元",
         "最长按15秒封顶",
         "逐镜起止时间",
+        "定点修订与重生成",
+        "AWAITING_USER",
+        "REVIEW_REQUIRED",
     ]
     for term in core_terms:
         if term not in skill:
@@ -411,6 +435,8 @@ def main() -> None:
         "4–15秒自适应分镜板与逐镜时间",
         "连续多条逐条分板",
         "角色、分镜页与API图片顺序绑定",
+        "指定图片不满意并先审阅提示词",
+        "指定视频时间段不满意并控制影响范围",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
@@ -424,6 +450,9 @@ def main() -> None:
         "0.0–T_video",
         "单镜时长Δt",
         "REFERENCE-ONLY OVERVIEW",
+        "定点修订与重生成",
+        "稳定资产ID",
+        "明确“继续生成”",
     ]:
         if marker not in quality_checklist:
             fail(f"quality checklist missing storyboard timing boundary: {marker}")
@@ -496,6 +525,8 @@ def main() -> None:
         "执行素材清单",
         "--dry-run",
         "doctor --remote",
+        "定点修订",
+        "AWAITING_USER",
         "不得无上限自动重试",
     ]:
         if marker not in runtime:
@@ -532,6 +563,9 @@ def main() -> None:
         "asset://",
         "reference_image",
         "不立即重建",
+        "定点重生成",
+        "新候选任务",
+        "REVIEW_REQUIRED",
     ]:
         if marker not in api_contract:
             fail(f"Seedance API contract missing material filter: {marker}")
@@ -562,6 +596,22 @@ def main() -> None:
     ]:
         if marker not in package_builder:
             fail(f"minimal package builder missing contract marker: {marker}")
+
+    targeted_regeneration = (
+        ROOT / "references/targeted-regeneration.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "稳定定位",
+        "修订单",
+        "先提示词，后生成",
+        "最小重生成单位",
+        "依赖影响",
+        "候选验收与版本提升",
+        "VIDEO-VID-02",
+        "SUPERSEDED",
+    ]:
+        if marker not in targeted_regeneration:
+            fail(f"targeted regeneration contract missing marker: {marker}")
 
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in [
