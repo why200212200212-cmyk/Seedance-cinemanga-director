@@ -140,6 +140,8 @@ def main() -> None:
         "分镜形式决策",
         "角色多视角设计",
         "详细分镜图",
+        "0.0–15.0秒",
+        "逐镜起止时间",
     ]:
         if marker not in single:
             fail(f"single template missing marker: {marker}")
@@ -153,6 +155,9 @@ def main() -> None:
         "分镜形式决策",
         "全局角色多视角设计",
         "全局详细分镜图",
+        "逐条列出",
+        "本条分镜形式与执行分镜板",
+        "MAX 15.0s",
     ]:
         if marker not in multi:
             fail(f"multi template missing marker: {marker}")
@@ -179,6 +184,11 @@ def main() -> None:
         "FOCUS",
         "LIGHT",
         "READ",
+        "T_video",
+        "t_start–t_end",
+        "Δt",
+        "MAX 15.0s",
+        "本板只服务当前VID",
     ]:
         if marker not in storyboard:
             fail(f"storyboard template missing marker: {marker}")
@@ -215,6 +225,9 @@ def main() -> None:
         "不要一次加载全部知识库",
         "真一镜到底",
         "伪一镜到底",
+        "以当前一条4–15秒视频为分镜计算单元",
+        "最长按15秒封顶",
+        "逐镜起止时间",
     ]
     for term in core_terms:
         if term not in skill:
@@ -327,6 +340,8 @@ def main() -> None:
         "可复制视频提示词",
         "摄影与物理合同",
         "固定服装",
+        "T_video=15.0s",
+        "Δt=5.0s",
     ]:
         if marker not in single_example:
             fail(f"single example missing field: {marker}")
@@ -351,6 +366,10 @@ def main() -> None:
         "状态账本更新",
         "可复制视频提示词",
         "负面约束",
+        "REFERENCE-ONLY OVERVIEW",
+        "VID-01｜T_video=8.0s",
+        "VID-02｜T_video=12.0s",
+        "不占独立时长",
     ]:
         if marker not in multi_example:
             fail(f"multi example missing field: {marker}")
@@ -376,9 +395,24 @@ def main() -> None:
         "高难度镜头可执行性闸门",
         "一镜到底适用与真假标注",
         "伪一镜到底接缝连续性",
+        "4–15秒自适应分镜板与逐镜时间",
+        "连续多条逐条分板",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
+
+    quality_checklist = (ROOT / "references/quality-checklist.md").read_text(
+        encoding="utf-8"
+    )
+    for marker in [
+        "当前条4–15秒总时长",
+        "每张执行分镜板只对应一个VID",
+        "0.0–T_video",
+        "单镜时长Δt",
+        "REFERENCE-ONLY OVERVIEW",
+    ]:
+        if marker not in quality_checklist:
+            fail(f"quality checklist missing storyboard timing boundary: {marker}")
 
     workflow = (ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8")
     for marker in [
