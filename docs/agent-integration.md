@@ -1,6 +1,6 @@
 # Codex、OpenClaw 与其他 AI 接入
 
-此仓库是平台无关的 AgentSkill。AI 负责把素材编译为导演级提示词，`scripts/seedance_client.py` 负责调用火山方舟异步视频 API。两层之间只有明确的“可复制视频提示词 + 有序参考素材”契约。
+此仓库是平台无关的 AgentSkill。AI 负责完成剧情分析、独立角色板、身份注册、自适应分镜和导演提示词编译，`scripts/seedance_client.py` 负责调用火山方舟异步视频 API。两层之间只有明确的“当前条可复制视频提示词 + 执行素材清单”契约。
 
 ## 最低运行条件
 
@@ -25,6 +25,9 @@
 - 先 dry-run 再经用户授权创建；
 - 密钥不进入模型上下文；
 - 参考图编号与内容数组顺序严格一致；
+- 每个角色独立角色板与永久ID保持一致，多人合并图不作为身份绑定；
+- 只提交当前条USE镜头需要的素材；SKIP不提交，REFERENCE-ONLY不占独立视频时长；
+- CAM节点先编译为按时间排序的自然语言运镜，不把箭头图例当成最终画面文字；
 - 轮询只接受官方任务状态，不伪造完成结果。
 
 完整编排规则见 `references/runtime-orchestration.md`，API 命令见 `docs/api-integration.md`。

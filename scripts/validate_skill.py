@@ -147,9 +147,29 @@ def main() -> None:
             fail(f"API client missing contract marker: {marker}")
 
     runtime = (ROOT / "references/runtime-orchestration.md").read_text(encoding="utf-8")
-    for marker in ["Codex", "OpenClaw", "--dry-run", "不得无上限自动重试"]:
+    for marker in ["Codex", "OpenClaw", "角色注册", "分镜编排", "执行素材清单", "--dry-run", "不得无上限自动重试"]:
         if marker not in runtime:
             fail(f"runtime orchestration missing boundary: {marker}")
+
+    prompt_compiler = (ROOT / "references/prompt-compiler.md").read_text(encoding="utf-8")
+    for marker in ["CHAR-xxx", "USE", "REFERENCE-ONLY", "SKIP", "分镜到视频提示词的编译", "按时间排序的自然语言运镜"]:
+        if marker not in prompt_compiler:
+            fail(f"prompt compiler missing execution rule: {marker}")
+
+    continuity = (ROOT / "references/continuity-rules.md").read_text(encoding="utf-8")
+    for marker in ["永久角色ID", "独立角色板", "摄影机路线最终节点", "参考图编号"]:
+        if marker not in continuity:
+            fail(f"continuity rules missing identity/route field: {marker}")
+
+    api_contract = (ROOT / "references/seedance-api.md").read_text(encoding="utf-8")
+    for marker in ["执行素材清单", "USE", "REFERENCE-ONLY", "SKIP", "独立角色板", "dry-run"]:
+        if marker not in api_contract:
+            fail(f"Seedance API contract missing material filter: {marker}")
+
+    agent_integration = (ROOT / "docs/agent-integration.md").read_text(encoding="utf-8")
+    for marker in ["执行素材清单", "独立角色板", "永久ID", "CAM节点", "SKIP"]:
+        if marker not in agent_integration:
+            fail(f"agent integration missing execution boundary: {marker}")
 
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in ["display_name:", "short_description:", "default_prompt:", "$seedance-cinemanga-director"]:
