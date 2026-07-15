@@ -22,6 +22,7 @@ from urllib import error, parse, request
 
 DEFAULT_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
 PENDING_STATUSES = {"queued", "running"}
+TASK_STATUSES = PENDING_STATUSES | {"succeeded", "failed", "cancelled"}
 LOOPBACK_HOSTS = {"localhost", "127.0.0.1", "::1"}
 
 
@@ -355,6 +356,48 @@ class SeedanceClient:
             "DELETE", f"contents/generations/tasks/{parse.quote(task_id, safe='')}"
         )
 
+    def list_tasks(
+        self,
+        page_num: int = 1,
+        page_size: int = 20,
+        status: str | None = None,
+        task_ids: Iterable[str] = (),
+        model: str | None = None,
+    ) -> dict[str, Any]:
+        """List tasks for recovery and audit without creating new billable work."""
+
+        if isinstance(page_num, bool) or not 1 <= page_num <= 500:
+            raise SeedanceError("Page number must be an integer from 1 to 500")
+        if isinstance(page_size, bool) or not 1 <= page_size <= 500:
+            raise SeedanceError("Page size must be an integer from 1 to 500")
+
+        parameters: list[tuple[str, str | int]] = [
+            ("page_num", page_num),
+            ("page_size", page_size),
+        ]
+        if status:
+            normalized_status = status.strip().lower()
+            if normalized_status not in TASK_STATUSES:
+                raise SeedanceError(
+                    "Task status must be queued, running, succeeded, failed, or cancelled"
+                )
+            parameters.append(("filter.status", normalized_status))
+
+        for task_id in task_ids:
+            normalized_task_id = task_id.strip()
+            if not normalized_task_id:
+                raise SeedanceError("Task ID filters must not be empty")
+            parameters.append(("filter.task_ids", normalized_task_id))
+
+        if model:
+            normalized_model = model.strip()
+            if not normalized_model:
+                raise SeedanceError("Model filter must not be empty")
+            parameters.append(("filter.model", normalized_model))
+
+        query = parse.urlencode(parameters)
+        return self._request_json("GET", f"contents/generations/tasks?{query}")
+
     def wait(
         self, task_id: str, interval: float = 5.0, timeout: float = 900.0
     ) -> dict[str, Any]:
@@ -455,6 +498,17 @@ def build_parser() -> argparse.ArgumentParser:
     status_parser = subparsers.add_parser("status", help="get task status")
     status_parser.add_argument("task_id")
 
+    list_parser = subparsers.add_parser(
+        "list", help="list tasks, including recovery after an uncertain create response"
+    )
+    list_parser.add_argument("--page-num", type=int, default=1)
+    list_parser.add_argument("--page-size", type=int, default=20)
+    list_parser.add_argument("--status", choices=sorted(TASK_STATUSES))
+    list_parser.add_argument("--task-id", action="append", default=[])
+    list_parser.add_argument(
+        "--filter-model", help="filter by the inference endpoint ID used at creation"
+    )
+
     wait_parser = subparsers.add_parser(
         "wait", help="wait for a task and optionally download it"
     )
@@ -510,6 +564,14 @@ def main(argv: list[str] | None = None) -> int:
         client = SeedanceClient(api_key, base_url, args.request_timeout)
         if args.command == "status":
             result = client.get(args.task_id)
+        elif args.command == "list":
+            result = client.list_tasks(
+                args.page_num,
+                args.page_size,
+                args.status,
+                args.task_id,
+                args.filter_model,
+            )
         elif args.command == "wait":
             result = client.wait(args.task_id, args.interval, args.timeout)
             if args.output:

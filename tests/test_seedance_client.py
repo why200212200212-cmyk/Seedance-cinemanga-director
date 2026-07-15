@@ -11,7 +11,7 @@ import threading
 from typing import Any
 import unittest
 from unittest.mock import patch
-from urllib import error
+from urllib import error, parse
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -257,6 +257,20 @@ class SeedanceClientTests(unittest.TestCase):
                     )
                     self.end_headers()
                     return
+                if self.path.startswith(
+                    "/api/v3/contents/generations/tasks?"
+                ):
+                    authorizations.append(self.headers.get("Authorization"))
+                    query = parse.parse_qs(parse.urlsplit(self.path).query)
+                    self._send_json(
+                        200,
+                        {
+                            "items": [{"id": "cgt-retry", "status": "succeeded"}],
+                            "total": 1,
+                            "echo_query": query,
+                        },
+                    )
+                    return
                 if self.path.endswith("/cgt-redirect"):
                     authorizations.append(self.headers.get("Authorization"))
                     self.send_response(302)
@@ -304,6 +318,21 @@ class SeedanceClientTests(unittest.TestCase):
             mocked_sleep.assert_called_once_with(8.0)
             self.assertEqual(client.cancel("cgt-retry")["id"], "cgt-retry")
 
+            listed = client.list_tasks(
+                page_num=2,
+                page_size=50,
+                status="succeeded",
+                task_ids=["cgt-retry", "cgt-second"],
+                model="ep-demo",
+            )
+            self.assertEqual(listed["total"], 1)
+            self.assertEqual(listed["echo_query"]["page_num"], ["2"])
+            self.assertEqual(
+                listed["echo_query"]["filter.task_ids"],
+                ["cgt-retry", "cgt-second"],
+            )
+            self.assertEqual(listed["echo_query"]["filter.model"], ["ep-demo"])
+
             with self.assertRaises(SeedanceAPIError):
                 client.create(
                     build_create_payload("fail-model", build_content("prompt"))
@@ -345,6 +374,20 @@ class SeedanceClientTests(unittest.TestCase):
             all(value == "Bearer secret-for-local-test" for value in authorizations)
         )
         self.assertIn(("DELETE", "/api/v3/contents/generations/tasks/cgt-retry"), calls)
+
+    def test_list_tasks_rejects_invalid_filters_without_network(self) -> None:
+        client = SeedanceClient("local-test-key")
+        invalid_calls = [
+            {"page_num": 0},
+            {"page_num": 501},
+            {"page_size": 0},
+            {"page_size": 501},
+            {"status": "unknown"},
+            {"task_ids": ["cgt-ok", " "]},
+        ]
+        for arguments in invalid_calls:
+            with self.subTest(arguments=arguments), self.assertRaises(SeedanceError):
+                client.list_tasks(**arguments)
 
     def test_download_failure_removes_partial_file(self) -> None:
         client = SeedanceClient("local-test-key")

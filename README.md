@@ -39,6 +39,7 @@
 - **剧情分析优先**：先拆解剧情事实、台词、人物、节拍和时间预算；
 - **4–15秒自适应分镜**：每条视频分别按总时长、剧情节拍、镜头/关键状态数量和复杂度选择标准故事板、九宫格、二十五宫格或智能宫格，不按秒数机械绑定、不为凑格数改变剧情；
 - **逐镜时间分镜图**：每张执行板只服务一个视频条目，页头标4–15秒总时长与15秒上限；每格标阅读顺序、镜头序号、起止时间、单镜时长，以及 Seedance 2.0 执行所需的角色、动作、声音、光影与连续性信息；
+- **角色—分镜—API可追溯绑定**：每个USE镜头关联永久角色ID和独立角色板，每张执行分镜页绑定唯一VID；执行素材清单、视频提示词图片编号与API content严格同序；
 - **镜头使用清单**：用USE、REFERENCE-ONLY、SKIP明确哪些镜头必须生成、仅作参考或不得提交生成端；
 - **AI可辨识运镜路线**：用分段节点、逐段箭头、转向后方向、速度、机位高度及俯视/侧视小图描述完整路径；
 - **独立角色多视角设计**：每名必要角色单独输出一张角色板，至少包含正面、左侧面、右侧面和背面；
@@ -101,6 +102,12 @@ python scripts/seedance_client.py --model doubao-seedance-2-0-260128 create --pr
 
 ```bash
 python scripts/seedance_client.py create --prompt-file prompt.txt --wait --output outputs/seedance.mp4
+```
+
+如果创建响应在返回任务ID前断开，先用列表恢复可能已经接收的任务，避免重复计费：
+
+```bash
+python scripts/seedance_client.py list --status running --filter-model ep-你的推理接入点ID
 ```
 
 创建视频可能产生费用，因此 Skill 必须先 dry-run，且只有用户明确要求实际生成时才调用创建接口。完整配置与命令见 [API 接入文档](docs/api-integration.md)，Codex / OpenClaw / 其他代理的接入方式见 [Agent 接入文档](docs/agent-integration.md)。

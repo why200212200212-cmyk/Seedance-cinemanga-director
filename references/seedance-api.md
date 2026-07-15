@@ -7,6 +7,7 @@
 - 鉴权：`Authorization: Bearer $ARK_API_KEY`。
 - 创建：`POST /api/v3/contents/generations/tasks`。
 - 查询：`GET /api/v3/contents/generations/tasks/{id}`。
+- 列表：`GET /api/v3/contents/generations/tasks`，用于按状态、任务ID或推理接入点恢复和审计任务。
 - 取消：`DELETE /api/v3/contents/generations/tasks/{id}`。
 - 创建必填字段：`model`、`content`；模型 ID 或推理接入点 ID由用户账户决定，不在 Skill 内锁死。
 - 任务状态：`queued`、`running`、`succeeded`、`failed`、`cancelled`；成功结果读取 `content.video_url`。
@@ -26,11 +27,14 @@
 
 dry-run 时逐项核对文本中的图片编号、`content` 数组索引和执行素材清单。任何不一致都停止创建任务。
 
+执行素材清单必须保留素材类型和可追溯ID：角色板使用永久 `CHAR-ID`，执行分镜页使用 `VID-ID/PAGE-ID` 并列明覆盖的USE镜头。视频提示词【图片绑定】与 API `content` 必须逐项同序；任何增删或重排都重新编号并重新 dry-run。
+
 需要首尾帧、视频、音频或其他账户特定的多模态字段时，使用 `--content-json` 透传当前官方 `content` 数组，不猜测字段。先用 `--dry-run` 检查最终请求体。
 
 ## 运行边界
 
 - 创建请求不自动重试，避免网络不确定时重复创建付费任务。
+- 创建请求出现“服务端可能已接收、客户端未收到任务ID”的不确定网络错误时，不立即重建；先运行 `list` 按时间、状态或推理接入点查找已有任务。
 - 查询遇到 429 或 5xx 可有限重试。
 - API 调用拒绝重定向，避免鉴权头被转发；视频下载只跟随符合 HTTPS/本机环回地址规则的重定向。
 - API 密钥只从环境变量或本地 `.env` 读取，不写进提示词、日志、仓库或示例。

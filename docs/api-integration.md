@@ -71,12 +71,13 @@ python scripts/seedance_client.py create --prompt-file prompt.txt --wait --outpu
 
 ```bash
 python scripts/seedance_client.py create --prompt-file prompt.txt
+python scripts/seedance_client.py list --status running --filter-model ep-你的推理接入点ID
 python scripts/seedance_client.py status cgt-你的任务ID
 python scripts/seedance_client.py wait cgt-你的任务ID --output outputs/seedance.mp4
 python scripts/seedance_client.py cancel cgt-你的任务ID
 ```
 
-创建命令支持 `--callback-url` 与 `--return-last-frame`。创建请求不会自动重试，以免重复产生付费任务；状态查询只对 429 和服务端错误做有限重试。API 请求拒绝重定向，避免鉴权头被转发到其他地址；视频下载只跟随通过同一 HTTPS/环回地址规则验证的重定向。
+创建命令支持 `--callback-url` 与 `--return-last-frame`。创建请求不会自动重试，以免重复产生付费任务；状态查询只对 429 和服务端错误做有限重试。如果创建时断网且无法确定服务端是否已接收，先用 `list` 按状态、任务ID或推理接入点找回已有任务，不要直接再次创建。API 请求拒绝重定向，避免鉴权头被转发到其他地址；视频下载只跟随通过同一 HTTPS/环回地址规则验证的重定向。
 
 ## 4. 官方内容数组透传
 
@@ -106,6 +107,7 @@ python scripts/seedance_client.py create --content-json content.json --wait
 
 - [创建视频生成任务](https://api.volcengine.com/api-docs/view?action=CreateContentsGenerationsTasks&serviceCode=ark&version=2024-01-01)
 - [查询视频生成任务](https://api.volcengine.com/api-docs/view?action=GetContentsGenerationsTask&serviceCode=ark&version=2024-01-01)
+- [查询视频生成任务列表](https://api.volcengine.com/api-docs/view?action=ListContentsGenerationsTasks&serviceCode=ark&version=2024-01-01)
 - [取消/删除视频生成任务](https://api.volcengine.com/api-explorer/debug?action=DeleteContentsGenerationsTasks&groupName=%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90API&serviceCode=ark&version=2024-01-01)
 - [Seedance 2.0 提示词指南](https://www.volcengine.com/docs/82379/2222480?lang=zh)
 - [Seedance 2.0 可信人物素材与 Asset URI](https://www.volcengine.com/docs/82379/2315856?lang=zh)
