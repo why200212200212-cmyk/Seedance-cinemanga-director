@@ -56,7 +56,7 @@
 - **真人摄影约束**：明确焦段、机位、设备、景深、曝光、光源、演员微表演和现场物理；
 - **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
 - **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、分镜页、场景板和尾帧，排除SKIP与装饰图。
-- **按需导演知识库**：内置16份分镜、运镜、构图、剪辑、光影、调度、景深和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
+- **按需导演知识库**：内置23份分镜、运镜、构图、剪辑、光影、调度、景深、13字段大表、高难度镜头、一镜到底和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
 
 ## 快速安装
 
@@ -158,7 +158,7 @@ python scripts/seedance_client.py create --prompt-file prompt.txt --wait --outpu
 
 ## 按需知识库与 Seedance 素材绑定
 
-知识库只在剧情分析和分镜形式决策之后，按当前镜头问题加载必要资料；平台案例、词典和旧参数不会覆盖核心规则。
+知识库只在剧情分析和分镜形式决策之后，按当前镜头问题加载必要资料；平台案例、词典和旧参数不会覆盖核心规则。新增的13字段大表只扩展交付，高难度镜头与一镜到底必须先通过可执行性闸门，并区分真一镜到底与带隐藏接缝的伪一镜到底。
 
 <p align="center">
   <img src="assets/knowledge-routing-map.png" alt="On-demand Director Knowledge Routing" width="100%">
@@ -282,7 +282,7 @@ Seedance-cinemanga-director/
 │   ├── seedance-api.md
 │   ├── prompt-compiler.md
 │   ├── knowledge-00-index.md
-│   └── knowledge-01...15（按需导演参考知识库）
+│   └── knowledge-01...22（按需导演参考知识库）
 ├── examples/
 │   ├── api-prompt.txt
 │   ├── example-input-script.md

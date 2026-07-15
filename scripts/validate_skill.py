@@ -27,6 +27,13 @@ KNOWLEDGE_FILES = [
     "references/knowledge-13-seedance-2-guide.md",
     "references/knowledge-14-runway-gen4-camera-guide.md",
     "references/knowledge-15-video-tool-comparison.md",
+    "references/knowledge-16-shot-table-schema.md",
+    "references/knowledge-17-shot-table-case-study.md",
+    "references/knowledge-18-state-change-tracking.md",
+    "references/knowledge-19-advanced-camera-techniques.md",
+    "references/knowledge-20-seedance-advanced-shot-templates.md",
+    "references/knowledge-21-long-take-guide.md",
+    "references/knowledge-22-seedance-long-take-templates.md",
 ]
 
 REQUIRED_FILES = [
@@ -206,6 +213,8 @@ def main() -> None:
         "高度相似",
         "导演知识库路由（仅供参考）",
         "不要一次加载全部知识库",
+        "真一镜到底",
+        "伪一镜到底",
     ]
     for term in core_terms:
         if term not in skill:
@@ -218,6 +227,8 @@ def main() -> None:
         "调用约束",
         "不要一次读取全部资料",
         "当前官方能力",
+        "13字段分镜大表",
+        "一镜到底",
     ]:
         if marker not in knowledge_index:
             fail(f"knowledge index missing routing boundary: {marker}")
@@ -253,6 +264,49 @@ def main() -> None:
     ]:
         if marker not in seedance_knowledge:
             fail(f"Seedance 2.0 knowledge missing verified boundary: {marker}")
+
+    knowledge_boundaries = {
+        "references/knowledge-16-shot-table-schema.md": [
+            "13 个字段",
+            "Shot_ID",
+            "USE / REFERENCE-ONLY / SKIP",
+        ],
+        "references/knowledge-17-shot-table-case-study.md": [
+            "局部案例摘录",
+            "案例隔离",
+            "不作为“完整全表”",
+        ],
+        "references/knowledge-18-state-change-tracking.md": [
+            "永久 `CHAR-ID`",
+            "block_end_snapshot",
+            "概念伪代码",
+        ],
+        "references/knowledge-19-advanced-camera-techniques.md": [
+            "可执行性闸门",
+            "不得为了炫技",
+            "拆镜",
+        ],
+        "references/knowledge-20-seedance-advanced-shot-templates.md": [
+            "模板不是能力承诺",
+            "永久 `CHAR-ID`",
+            "CAM 节点",
+        ],
+        "references/knowledge-21-long-take-guide.md": [
+            "真一镜到底",
+            "伪一镜到底",
+            "4–15 秒",
+        ],
+        "references/knowledge-22-seedance-long-take-templates.md": [
+            "CAM 节点",
+            "block_end_snapshot",
+            "末帧锚点",
+        ],
+    }
+    for relative_path, markers in knowledge_boundaries.items():
+        reference_text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in reference_text:
+                fail(f"knowledge reference missing safety boundary in {relative_path}: {marker}")
 
     single_example = (ROOT / "examples/example-output-single.md").read_text(
         encoding="utf-8"
@@ -318,6 +372,10 @@ def main() -> None:
         "平台能力未知",
         "导演知识库按需调用",
         "Seedance 2.0分镜参考绑定",
+        "13字段分镜大表扩展",
+        "高难度镜头可执行性闸门",
+        "一镜到底适用与真假标注",
+        "伪一镜到底接缝连续性",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
