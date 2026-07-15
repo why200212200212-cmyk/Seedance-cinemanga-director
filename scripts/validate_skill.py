@@ -332,6 +332,7 @@ def main() -> None:
         "SKIP",
         "角色多视角设计",
         "角色身份注册表",
+        "执行素材绑定清单",
         "详细分镜图",
         "CHAR-001",
         "CAM-A0",
@@ -358,6 +359,8 @@ def main() -> None:
         "SKIP",
         "全局角色多视角设计",
         "全局角色身份注册表",
+        "全局素材注册表",
+        "本条执行素材绑定清单",
         "全局详细分镜图",
         "CHAR-001",
         "全局声音规则",
@@ -397,6 +400,7 @@ def main() -> None:
         "伪一镜到底接缝连续性",
         "4–15秒自适应分镜板与逐镜时间",
         "连续多条逐条分板",
+        "角色、分镜页与API图片顺序绑定",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
@@ -460,6 +464,8 @@ def main() -> None:
         "asset://asset-id",
         "reference_image",
         "math.isfinite",
+        "list_tasks",
+        "filter.task_ids",
     ]:
         if marker not in api_client:
             fail(f"API client missing contract marker: {marker}")
@@ -489,6 +495,7 @@ def main() -> None:
         "SKIP",
         "分镜到视频提示词的编译",
         "按时间排序的自然语言运镜",
+        "角色、分镜与API素材绑定",
     ]:
         if marker not in prompt_compiler:
             fail(f"prompt compiler missing execution rule: {marker}")
@@ -508,6 +515,7 @@ def main() -> None:
         "dry-run",
         "asset://",
         "reference_image",
+        "不立即重建",
     ]:
         if marker not in api_contract:
             fail(f"Seedance API contract missing material filter: {marker}")
