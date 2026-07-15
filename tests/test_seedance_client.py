@@ -22,6 +22,7 @@ from seedance_client import (  # noqa: E402
     SeedanceError,
     build_content,
     build_create_payload,
+    build_doctor_report,
     extract_video_url,
     load_dotenv,
     main,
@@ -31,6 +32,57 @@ from seedance_client import (  # noqa: E402
 
 
 class SeedanceClientTests(unittest.TestCase):
+    def test_doctor_report_is_offline_and_never_exposes_secret(self) -> None:
+        report = build_doctor_report(
+            "super-secret-key",
+            "endpoint-id",
+            "https://ark.cn-beijing.volces.com/api/v3",
+            Path("missing-test.env"),
+        )
+        serialized = json.dumps(report)
+        self.assertTrue(report["ready_for_dry_run"])
+        self.assertTrue(report["ready_for_network"])
+        self.assertFalse(report["network_called"])
+        self.assertNotIn("super-secret-key", serialized)
+        self.assertEqual(report["checks"]["api_key"]["detail"], "configured")
+
+        incomplete = build_doctor_report(
+            "",
+            "",
+            "https://ark.cn-beijing.volces.com/api/v3",
+            Path("missing-test.env"),
+        )
+        self.assertFalse(incomplete["ready_for_dry_run"])
+        self.assertFalse(incomplete["ready_for_network"])
+
+    def test_doctor_remote_check_is_explicit_and_read_only(self) -> None:
+        stdout = StringIO()
+        with (
+            patch.dict(
+                os.environ,
+                {"ARK_API_KEY": "local-test-key", "SEEDANCE_MODEL": "endpoint-id"},
+                clear=False,
+            ),
+            patch.object(
+                SeedanceClient, "list_tasks", return_value={"items": []}
+            ) as listed,
+            redirect_stdout(stdout),
+        ):
+            result = main(
+                [
+                    "--env-file",
+                    "missing-test.env",
+                    "doctor",
+                    "--remote",
+                ]
+            )
+        self.assertEqual(result, 0)
+        listed.assert_called_once_with(page_size=1)
+        report = json.loads(stdout.getvalue())
+        self.assertEqual(report["mode"], "remote-read-only")
+        self.assertTrue(report["network_called"])
+        self.assertTrue(report["remote"]["ok"])
+
     def test_build_content_preserves_reference_order_and_role(self) -> None:
         urls = ["https://example.com/a.png?signature=ok", "asset://asset-20260715-demo"]
         content = build_content("图片1是角色，图片2是授权资产", urls)

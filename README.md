@@ -61,6 +61,16 @@
 
 ## 快速安装
 
+### 最小 Skill 安装包
+
+完整仓库保留项目文档、测试和展示图片；需要给 AI 宿主安装时，可构建只含运行必需文件的精简包：
+
+```bash
+python scripts/build_skill_package.py
+```
+
+产物位于 `dist/seedance-cinemanga-director.zip`，包含 `SKILL.md`、按需参考资料、模板、Agent 元数据、API 客户端和许可证，不包含 README、测试、展示图片、真实 `.env` 或任何用户密钥。构建结果固定排序与时间戳，便于校验 SHA-256 和复现发布包。
+
 ### Codex 手动安装
 
 将仓库克隆或复制到 `$CODEX_HOME/skills/seedance-cinemanga-director`；未设置 `CODEX_HOME` 时使用 `~/.codex/skills/seedance-cinemanga-director`。重新打开 Codex 后即可发现该 Skill。
@@ -92,6 +102,18 @@ openclaw skills install ./Seedance-cinemanga-director
 ## 接入 Seedance API 后直接运行
 
 本仓库现在同时包含导演 Skill 与平台无关的 API 执行适配器。Codex、OpenClaw 或其他能够读取 AgentSkills 并执行 Python 的 AI，只需加载本仓库、配置火山方舟凭证，即可完成“素材分析 → 3D/真人专项导演编译 → 请求预检 → 异步生成 → 下载结果”的流程。
+
+API Key、模型/推理接入点和账户权限始终由下载者在自己的 AI 宿主或执行环境中配置；仓库不会内置或代管用户凭证。配置后先执行离线自检：
+
+```bash
+python scripts/seedance_client.py doctor
+```
+
+只有用户主动要求验证自己的 API 连通性时，才执行一次不创建任务的只读检查：
+
+```bash
+python scripts/seedance_client.py doctor --remote
+```
 
 ```powershell
 Copy-Item .env.example .env

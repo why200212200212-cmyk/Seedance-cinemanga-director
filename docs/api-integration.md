@@ -28,6 +28,20 @@ ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/v3
 
 `.env` 已被 Git 忽略。不要把真实密钥提交到仓库、聊天记录或提示词。示例中的 `doubao-seedance-2-0-260128` 是当前公开资料使用的模型标识；是否可用、具体能力和配额以你的方舟账户为准，也可改为已开通的推理接入点 ID。
 
+凭证、模型权限和推理接入点由下载者在自己的 Codex、OpenClaw 或其他 AI 宿主环境中接入；本仓库不会内置用户 API。先执行默认离线自检：
+
+```bash
+python scripts/seedance_client.py doctor
+```
+
+它只检查 Python、模型、API Key 是否已配置及 Base URL 格式，输出中不包含密钥，也不会联网。若用户主动要求验证已配置账户，可执行：
+
+```bash
+python scripts/seedance_client.py doctor --remote
+```
+
+`--remote` 只调用一次任务列表查询，不创建视频任务；未配置完整时会直接失败且不联网。CI 永远不执行该远程检查。
+
 ## 2. 先检查请求，不产生任务
 
 把 Skill 输出中的“可复制视频提示词”单独保存为 UTF-8 文本，然后执行：

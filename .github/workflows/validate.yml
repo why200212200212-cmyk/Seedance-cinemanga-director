@@ -32,8 +32,16 @@ jobs:
       - name: Run offline client tests
         run: python -m unittest discover -s tests -p "test_*.py"
 
+      - name: Check local runtime configuration contract
+        env:
+          ARK_API_KEY: ci-placeholder
+        run: python scripts/seedance_client.py --model ci-placeholder doctor
+
       - name: Preview API payload without network
         run: python scripts/seedance_client.py --model ci-placeholder create --prompt-file examples/api-prompt.txt --dry-run
+
+      - name: Build minimal installable skill package
+        run: python scripts/build_skill_package.py
 
       - name: Validate skill structure and assets
         run: python scripts/validate_skill.py

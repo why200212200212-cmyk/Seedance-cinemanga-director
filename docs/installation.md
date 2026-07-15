@@ -1,5 +1,15 @@
 # Installation
 
+## 推荐：构建最小安装包
+
+仓库根目录同时包含 GitHub 文档、测试和展示图片。给 AI 宿主安装时可先构建精简包：
+
+```bash
+python scripts/build_skill_package.py
+```
+
+解压 `dist/seedance-cinemanga-director.zip` 后，目录根部会直接包含 `SKILL.md`。安装包只保留运行所需的参考资料、模板、Agent 元数据、API 客户端、空白环境变量示例和许可证；不会打包真实 `.env`、测试、展示图片或项目维护文档。
+
 ## Codex 手动安装
 
 将仓库克隆或复制到：
@@ -52,3 +62,12 @@ python scripts/validate_skill.py
 ```text
 PASS: Seedance Cinemanga Director skill structure is valid.
 ```
+
+安装到 OpenClaw 后还可执行：
+
+```bash
+openclaw skills list
+openclaw skills check
+```
+
+命令及支持路径以 [OpenClaw 官方 Skills CLI 文档](https://docs.openclaw.ai/cli/skills)为准。
