@@ -25,7 +25,7 @@ python scripts/seedance_client.py create --prompt-file <临时提示词文件> -
 python scripts/seedance_client.py create --prompt-file <临时提示词文件> --wait --output <目标视频路径>
 ```
 
-多参考图按执行素材清单顺序重复传入 `--image-url`。每个角色必须使用独立角色板；当前条不需要的角色、SKIP镜头与文档装饰图不得提交。账户开放新的多模态格式时使用 `--content-json`，不得自行猜测字段。
+多参考图按执行素材清单顺序重复传入 `--image-url`；参数接受 API 可访问的 HTTPS URL（仅本机环回测试允许 HTTP），也接受已授权可信人物素材的 `asset://asset-id`，客户端会写入 `role: reference_image`。每个角色必须使用独立角色板；当前条不需要的角色、SKIP镜头与文档装饰图不得提交。首尾帧、视频、音频或账户新增格式使用 `--content-json` 透传当前官方结构，不得自行猜测字段。
 
 ## AI 行为边界
 

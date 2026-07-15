@@ -36,10 +36,16 @@ ARK_BASE_URL=https://ark.cn-beijing.volces.com/api/v3
 python scripts/seedance_client.py --model doubao-seedance-2-0-260128 create --prompt-file examples/api-prompt.txt --dry-run
 ```
 
-参考图必须是 API 可访问的 HTTP(S) URL，并按“图片1、图片2……”的语义顺序传入：
+普通参考图必须是 API 可访问的 HTTPS URL；已获本人授权并进入火山方舟可信素材库的人物，也可使用官方 `asset://asset-id` URI。只有本机环回测试允许 HTTP。两者都按“图片1、图片2……”的语义顺序传入，客户端会为每项写入 `role: reference_image`：
 
 ```bash
 python scripts/seedance_client.py create --prompt-file prompt.txt --image-url https://example.com/character.png --image-url https://example.com/location.png --dry-run
+```
+
+可信人物资产示例（只使用账户中确实可用且已授权的 Asset ID）：
+
+```bash
+python scripts/seedance_client.py create --prompt-file prompt.txt --image-url asset://asset-你的授权资产ID --dry-run
 ```
 
 提交前先建立执行素材清单，例如：
@@ -70,7 +76,7 @@ python scripts/seedance_client.py wait cgt-你的任务ID --output outputs/seeda
 python scripts/seedance_client.py cancel cgt-你的任务ID
 ```
 
-创建命令支持 `--callback-url` 与 `--return-last-frame`。创建请求不会自动重试，以免重复产生付费任务；状态查询只对 429 和服务端错误做有限重试。
+创建命令支持 `--callback-url` 与 `--return-last-frame`。创建请求不会自动重试，以免重复产生付费任务；状态查询只对 429 和服务端错误做有限重试。API 请求拒绝重定向，避免鉴权头被转发到其他地址；视频下载只跟随通过同一 HTTPS/环回地址规则验证的重定向。
 
 ## 4. 官方内容数组透传
 
@@ -79,7 +85,11 @@ python scripts/seedance_client.py cancel cgt-你的任务ID
 ```json
 [
   {"type": "text", "text": "这里放可复制视频提示词"},
-  {"type": "image_url", "image_url": {"url": "https://example.com/reference.png"}}
+  {
+    "type": "image_url",
+    "image_url": {"url": "https://example.com/reference.png"},
+    "role": "reference_image"
+  }
 ]
 ```
 
@@ -98,5 +108,6 @@ python scripts/seedance_client.py create --content-json content.json --wait
 - [查询视频生成任务](https://api.volcengine.com/api-docs/view?action=GetContentsGenerationsTask&serviceCode=ark&version=2024-01-01)
 - [取消/删除视频生成任务](https://api.volcengine.com/api-explorer/debug?action=DeleteContentsGenerationsTasks&groupName=%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90API&serviceCode=ark&version=2024-01-01)
 - [Seedance 2.0 提示词指南](https://www.volcengine.com/docs/82379/2222480?lang=zh)
+- [Seedance 2.0 可信人物素材与 Asset URI](https://www.volcengine.com/docs/82379/2315856?lang=zh)
 
 本执行层使用火山方舟公开 API 契约；它不改变仓库的非官方社区项目性质，也不代表即梦、Seedance 或火山引擎的授权或背书。

@@ -224,7 +224,7 @@ Medium close-up, slow push-in on the kneeling princess, her white dress torn and
 对于复杂的多段运镜，使用**链式提示**——每一段视频的Prompt以上一段的末帧为起点：
 
 ```
-Block 1 Prompt: 
+Block 1 Prompt:
 Extreme wide shot of a volcanic wasteland, orange sky, slow pan left to right
 
 Block 1 Output → Block 2 takes its last frame:
@@ -272,35 +272,35 @@ Push in towards a running figure in the distance, maintaining the same orange sk
 
 **SB01a-01（赤焰石林全景建制）**：
 ```
-Extreme wide shot, establishing, thousand-meter lava waterfall in center frame,  
-charred black rocks scattered, deep orange sky, volcanic ash, heat haze distorting air,  
+Extreme wide shot, establishing, thousand-meter lava waterfall in center frame,
+charred black rocks scattered, deep orange sky, volcanic ash, heat haze distorting air,
 cinematic, ARRI Alexa 65, Panavision anamorphic, 9:16 vertical, film grain
 ```
 
 **SB01b-05（莉拉化人身掐喉）**：
 ```
-Medium shot, low angle, Lila in human form with half-retracted dragon horns,  
-red dress, right hand gripping Naya's throat, lifting her off ground,  
-Naya's face congested with blood, fire ring around them,  
-Dutch angle, intense, claustrophobic, golden fire energy in skin veins,  
+Medium shot, low angle, Lila in human form with half-retracted dragon horns,
+red dress, right hand gripping Naya's throat, lifting her off ground,
+Naya's face congested with blood, fire ring around them,
+Dutch angle, intense, claustrophobic, golden fire energy in skin veins,
 dark orange and black color palette, deep shadows
 ```
 
 **SB02a-01（冰地牢Scene-First）**：
 ```
-Extreme close-up, frost-covered iron window bars, thick ice crystals,  
-cold blue light, frost creeping on metal, chains scraping sound implied,  
-J-Cut audio transition from previous scene,  
+Extreme close-up, frost-covered iron window bars, thick ice crystals,
+cold blue light, frost creeping on metal, chains scraping sound implied,
+J-Cut audio transition from previous scene,
 polar blue and deep black color palette, shallow depth of field
 ```
 
 **SB02f-04（强灌紫药Cliffhanger）**：
 ```
-Extreme close-up macro, purple viscous liquid pouring from stone bowl edge,  
-overflowing cracked pale lips, trickling down chin to collarbone,  
-deep purple with glowing vapor, cold blue background,  
-zero camera movement, suffocating silence,  
-trachea/Adam's apple convulsing in V-shape swallowing,  
+Extreme close-up macro, purple viscous liquid pouring from stone bowl edge,
+overflowing cracked pale lips, trickling down chin to collarbone,
+deep purple with glowing vapor, cold blue background,
+zero camera movement, suffocating silence,
+trachea/Adam's apple convulsing in V-shape swallowing,
 single tear falling into purple puddle
 ```
 
@@ -363,7 +363,7 @@ single tear falling into purple puddle
 4. 确定运镜速度（Slow/Medium/Fast）
     ↓
 5. 检查是否触发AI死穴（物理接触？）
-   ├── 是 → 启用死穴规避方案（过程化分段 + 蒙太奇）  
+   ├── 是 → 启用死穴规避方案（过程化分段 + 蒙太奇）
    └── 否 → 直接使用标准提示词
     ↓
 6. 生成完整Prompt（景别+运镜+主体+环境+光线+色调+参数）
