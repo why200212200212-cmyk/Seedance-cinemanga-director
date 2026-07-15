@@ -42,6 +42,17 @@ python scripts/seedance_client.py --model doubao-seedance-2-0-260128 create --pr
 python scripts/seedance_client.py create --prompt-file prompt.txt --image-url https://example.com/character.png --image-url https://example.com/location.png --dry-run
 ```
 
+提交前先建立执行素材清单，例如：
+
+```text
+图片1 = CHAR-001角色A独立多视角角色板（当前条USE镜头S01、S03）
+图片2 = CHAR-002角色B独立多视角角色板（当前条USE镜头S02、S03）
+图片3 = 当前条执行分镜页（只含USE与必要REFERENCE-ONLY）
+图片4 = 固定场景板或上一条尾帧
+```
+
+不得提交SKIP镜头、弃用分镜页、多人角色对比装饰图或与当前条无关的角色板。若参考素材数量受账户能力限制，优先保留当前条出镜角色的独立角色板、执行分镜页和连续接力尾帧；不要通过多人拼图规避限制。
+
 ## 3. 创建并等待结果
 
 确认 dry-run 请求体后，以下命令才会创建真实任务并可能产生费用：

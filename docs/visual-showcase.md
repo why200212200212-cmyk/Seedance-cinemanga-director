@@ -19,6 +19,12 @@
 - `assets/system-architecture.png`
 - 作用：展示从输入材料到连续性质检的完整流程。
 
+### README / 按需知识库与 Seedance 素材绑定
+
+- `assets/knowledge-routing-map.png`：展示剧情分析后如何只加载当前镜头需要的参考资料；
+- `assets/seedance-multimodal-binding.png`：展示独立角色板、场景、分镜页、可选运镜参考与音频参考的绑定和SKIP过滤。
+- 作用：解释知识调用与运行时素材边界；两图都只用于文档展示，不提交生成端。
+
 ### README / 深度架构与质量说明
 
 - `assets/workflow-architecture.png`：十阶段导演工作流与仓库结构；
@@ -31,7 +37,15 @@
 - `assets/storyboard-example.png`
 - `assets/nine-grid-example.png`
 - `assets/twenty-five-grid-example.png`
-- 作用：作为输出形态示例，让用户直观看到标准分镜板、九宫格和二十五格板式。
+- `assets/adaptive-storyboard-workflow.png`
+- `assets/ai-readable-camera-routes.png`
+- `assets/segmented-camera-path.png`
+- 作用：让用户直观看到标准分镜板、九宫格、二十五格、智能宫格，以及AI可辨识的运镜/动作/视线/焦点/光线/阅读路线语法和分段转向后的后续方向。
+
+### README / 角色身份与差异化
+
+- `assets/character-differentiation-board.png`
+- 作用：展示不同角色的结构性面部差异和多视角设计概念。此图仅作说明；实际运行必须一名角色一张独立角色板。
 
 ### README / 文档资产与装饰图标
 
