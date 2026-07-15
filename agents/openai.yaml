@@ -1,4 +1,4 @@
 interface:
   display_name: "Seedance Cinemanga Director"
-  short_description: "分析剧情并生成自适应分镜、角色设计与Seedance导演提示词"
-  default_prompt: "使用 $seedance-cinemanga-director 分析这段剧情，选择合适的分镜形式，锁定差异化角色并生成可供 Seedance 2.0 准确参考的导演方案。"
+  short_description: "生成自适应分镜、角色设计、Seedance提示词并支持定点修订"
+  default_prompt: "使用 $seedance-cinemanga-director 分析这段剧情，锁定差异化角色，生成可供 Seedance 2.0 准确参考的导演方案；生成后按稳定资产ID接受图片或视频的定点修订。"

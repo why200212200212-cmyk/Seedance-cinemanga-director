@@ -57,6 +57,7 @@
 - **真人摄影约束**：明确焦段、机位、设备、景深、曝光、光源、演员微表演和现场物理；
 - **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
 - **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、分镜页、场景板和尾帧，排除SKIP与装饰图。
+- **定点修订闭环**：每张图片、每个分镜页、每条视频和尾帧使用稳定资产ID与版本号；用户可指出“图N、角色名、VID、镜头号或某秒”，系统先展示针对性新版完整提示词供修改或确认，批准后只生成目标新版本，不满意时保留旧版且不自动连锁付费重做。
 - **按需导演知识库**：内置23份分镜、运镜、构图、剪辑、光影、调度、景深、13字段大表、高难度镜头、一镜到底和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
 
 ## 快速安装
@@ -296,7 +297,8 @@ Seedance-cinemanga-director/
 ├── templates/
 │   ├── single-15s.md
 │   ├── multi-clip.md
-│   └── storyboard-board.md
+│   ├── storyboard-board.md
+│   └── revision-preview.md
 ├── references/
 │   ├── continuity-rules.md
 │   ├── character-design.md
@@ -309,6 +311,7 @@ Seedance-cinemanga-director/
 │   ├── live-action-cinematography.md
 │   ├── runtime-orchestration.md
 │   ├── seedance-api.md
+│   ├── targeted-regeneration.md
 │   ├── prompt-compiler.md
 │   ├── knowledge-00-index.md
 │   └── knowledge-01...22（按需导演参考知识库）
@@ -318,10 +321,12 @@ Seedance-cinemanga-director/
 │   ├── example-output-single.md
 │   └── example-output-multi-clip.md
 ├── scripts/
+│   ├── build_skill_package.py
 │   ├── seedance_client.py
 │   └── validate_skill.py
 └── tests/
     ├── acceptance-cases.md
+    ├── test_build_skill_package.py
     └── test_seedance_client.py
 ```
 
