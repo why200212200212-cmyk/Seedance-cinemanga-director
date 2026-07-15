@@ -110,18 +110,18 @@ def main() -> None:
         if marker not in storyboard:
             fail(f"storyboard template missing marker: {marker}")
 
-    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛", "剧情分析", "智能宫格", "镜头序号", "Seedance 2.0", "角色差异化", "多视角设计", "永久角色ID", "独立参考图编号", "高度相似"]
+    core_terms = ["原台词", "必要人物", "连续性", "尾帧", "无BGM", "3D国漫", "真人影视级", "状态账本", "真实感门槛", "剧情分析", "分镜形式决策", "角色设计与注册", "镜头拆解与取舍", "路线规划", "详细分镜图", "提示词编译", "智能宫格", "镜头序号", "Seedance 2.0", "角色差异化", "多视角设计", "永久角色ID", "独立参考图编号", "视觉资产与视频执行门槛", "角色板待生成", "分镜图待生成", "高度相似"]
     for term in core_terms:
         if term not in skill:
             fail(f"SKILL.md missing core rule: {term}")
 
     single_example = (ROOT / "examples/example-output-single.md").read_text(encoding="utf-8")
-    for marker in ["剧情分析", "分镜形式决策", "角色多视角设计", "角色身份注册表", "详细分镜图", "CHAR-001", "导演方案（审阅用，不粘贴到生成器）", "可复制图片提示词", "可复制视频提示词", "摄影与物理合同", "固定服装"]:
+    for marker in ["剧情分析", "分镜形式决策", "镜头使用清单", "USE", "SKIP", "角色多视角设计", "角色身份注册表", "详细分镜图", "CHAR-001", "CAM-A0", "导演方案（审阅用，不粘贴到生成器）", "可复制图片提示词", "可复制视频提示词", "摄影与物理合同", "固定服装"]:
         if marker not in single_example:
             fail(f"single example missing field: {marker}")
 
     multi_example = (ROOT / "examples/example-output-multi-clip.md").read_text(encoding="utf-8")
-    for marker in ["全局剧情分析", "分镜形式决策", "全局角色多视角设计", "全局角色身份注册表", "全局详细分镜图", "CHAR-001", "全局声音规则", "全局摄影与物理规则", "转场类型", "状态账本更新", "可复制视频提示词", "负面约束"]:
+    for marker in ["全局剧情分析", "分镜形式决策", "镜头使用清单", "USE", "REFERENCE-ONLY", "SKIP", "全局角色多视角设计", "全局角色身份注册表", "全局详细分镜图", "CHAR-001", "全局声音规则", "全局摄影与物理规则", "转场类型", "状态账本更新", "可复制视频提示词", "负面约束"]:
         if marker not in multi_example:
             fail(f"multi example missing field: {marker}")
 
@@ -147,7 +147,7 @@ def main() -> None:
             fail(f"API client missing contract marker: {marker}")
 
     runtime = (ROOT / "references/runtime-orchestration.md").read_text(encoding="utf-8")
-    for marker in ["Codex", "OpenClaw", "角色注册", "分镜编排", "执行素材清单", "--dry-run", "不得无上限自动重试"]:
+    for marker in ["Codex", "OpenClaw", "分镜形式决策", "角色设计与注册", "状态与镜头规划", "详细分镜图", "执行素材清单", "--dry-run", "不得无上限自动重试"]:
         if marker not in runtime:
             fail(f"runtime orchestration missing boundary: {marker}")
 
