@@ -1,6 +1,6 @@
 # AI 导演参考知识库索引
 
-> 来源版本：用户提供的 v1.1 分镜参考资料，接入日期 2026-07-15。
+> 来源范围：用户提供的 00–22 号分镜参考资料，接入日期 2026-07-15。
 > 本知识库只用于辅助导演判断，不是执行硬规则，也不得替代 `SKILL.md`、模板、质量门槛或平台能力合同。
 
 ## 1. 使用优先级
@@ -36,6 +36,13 @@
 | Seedance 2.0 多模态素材与分镜参考 | [13 Seedance 2.0 指南](knowledge-13-seedance-2-guide.md) | 了解已核验的分镜、角色、场景、运镜与音视频参考方式 |
 | 用户明确要求 Runway 提示词或跨平台运镜翻译 | [14 Runway Gen-4 运镜](knowledge-14-runway-gen4-camera-guide.md) | 只参考运动描述方法，不覆盖 Seedance 主流程 |
 | 用户明确要求比较或选择生成工具 | [15 工具能力对比](knowledge-15-video-tool-comparison.md) | 建立待核验候选项，不自动替用户选型 |
+| 工业化分镜大表、完整字段词典或复杂项目追踪 | [16 13字段分镜大表](knowledge-16-shot-table-schema.md) | 扩展镜头字段与状态变化交付，不改变核心流程 |
+| 需要查看13字段的局部映射实例 | [17 分镜大表案例](knowledge-17-shot-table-case-study.md) | 只学习字段映射；隔离案例剧情、人物、镜号与参数 |
+| 多镜、多场、多条视频或状态变化密集 | [18 状态变化追踪](knowledge-18-state-change-tracking.md) | 补充位置、身体、情绪、视线、道具和块间快照 |
+| 剧本明确需要超现实、时空扭曲、身体变形或强VFX难镜头 | [19 高难度运镜技术库](knowledge-19-advanced-camera-techniques.md) | 先做可执行性闸门，再选择实现或降级方案 |
+| 已通过闸门的高难度镜头需要Seedance提示词骨架 | [20 高难度Seedance模板](knowledge-20-seedance-advanced-shot-templates.md) | 按当前角色、镜头、路线和平台合同重写模板 |
+| 用户明确要求一镜到底，或剧情适合实时连续行动 | [21 一镜到底实现指南](knowledge-21-long-take-guide.md) | 判断真/伪一镜、规划路径、接缝与连续性 |
+| 已通过长镜头闸门并进入Seedance提示词编译 | [22 一镜到底Seedance模板](knowledge-22-seedance-long-take-templates.md) | 绑定CAM节点、分段箭头、末帧锚点与执行素材 |
 
 ## 3. 调用约束
 
@@ -46,6 +53,9 @@
 - 物理接触方案是失败风险较高时的备选，不得擅自改变剧情烈度或删除用户要求的动作结果。
 - 分镜图中的路线仍使用仓库既定的 `CAM / ACT / GAZE / FOCUS / LIGHT / READ` 语法、分段节点和逐段箭头；知识库只辅助选择路线，不修改标注合同。
 - 角色身份仍以永久 `CHAR-ID`、独立多视角角色板和镜头绑定清单为准；案例角色描述不得进入当前剧本。
+- 13字段大表是可选扩展交付；实际执行仍必须补充 `USE / REFERENCE-ONLY / SKIP`、角色ID、分镜页和执行素材映射，案例插入镜号不得直接作为最终镜号。
+- 高难度镜头不得由资料反向触发；只有剧情或用户明确需要且通过叙事、空间、物理、身份和复杂度闸门时才调用，否则拆镜或降级。
+- 一镜到底必须明确是真一镜还是伪一镜；伪一镜逐接缝记录末帧、遮挡、运动方向与状态锚点，每个独立生成任务仍遵守当前4–15秒合同。
 
 ## 4. 资料清单
 
@@ -64,3 +74,10 @@
 - [13 Seedance 2.0 AI 视频生成工具指南](knowledge-13-seedance-2-guide.md)
 - [14 Runway Gen-4 运镜控制提示词指南](knowledge-14-runway-gen4-camera-guide.md)
 - [15 AI 视频工具运镜能力对比选型](knowledge-15-video-tool-comparison.md)
+- [16 AI短剧分镜大表—完整字段词典与规范](knowledge-16-shot-table-schema.md)
+- [17 分镜大表实战示例—局部全表映射案例](knowledge-17-shot-table-case-study.md)
+- [18 状态变化追踪系统—连续性与块间指令](knowledge-18-state-change-tracking.md)
+- [19 AI高难度运镜与难镜头技术库](knowledge-19-advanced-camera-techniques.md)
+- [20 AI高难度镜头—Seedance提示词模板](knowledge-20-seedance-advanced-shot-templates.md)
+- [21 AI一镜到底—长镜头实现指南](knowledge-21-long-take-guide.md)
+- [22 AI一镜到底—Seedance提示词模板](knowledge-22-seedance-long-take-templates.md)
