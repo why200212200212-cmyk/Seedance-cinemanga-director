@@ -27,6 +27,7 @@
 - `multi-clip.md`：连续多条4–15秒与尾帧合约；
 - `storyboard-board.md`：以每条4–15秒视频为单位，灵活选择标准故事板、九宫格、二十五宫格或智能宫格，并标总时长与逐镜时间。
 - `revision-preview.md`：用户不满意时先展示唯一目标、诊断、新版完整提示词、锁定项和影响范围，等待编辑或批准后再定点生成。
+- `multi-fighter-action.md`：多人冲突的动作角色图、空间拓扑、套路短句、逐拍动作、摄影与制作安全扩展。
 
 模板只定义成品结构，不承载所有解释性规则。
 
@@ -47,6 +48,7 @@
 - 真人摄影与表演；
 - 提示词编译与冲突消解。
 - 稳定资产ID、修订版本、最小重生成单位和下游 `REVIEW_REQUIRED` 传播规则；
+- 多人格斗、武术套路、动作物理、空间并发和影视特技安全边界；
 - 23份按需导演参考知识库：工作流、镜头语言、运镜、剪辑、光影、接触风险、竖屏、提示词词典、场面调度、景深、构图、13字段大表、状态变化、高难度镜头、一镜到底与平台资料。
 
 规则文件可独立迭代，避免主入口无限膨胀。`knowledge-00-index.md` 负责路由和优先级；`knowledge-01...22` 只提供参考，不升级为硬规则，也不得一次性全部加载。
@@ -89,6 +91,8 @@
   ↓
 状态账本：身份 / 道具 / 空间 / 轴线 / 光影 / 尾帧
   ↓
+多人动作导演（仅相关剧情）：FTR角色图 / ZONE与ACT路线 / 套路短句 / 行动令牌 / 安全边界
+  ↓
 镜头使用清单：USE / REFERENCE-ONLY / SKIP
   ↓
 镜头合约与表演调度
@@ -116,6 +120,12 @@ API dry-run与可选生成
   <img src="../assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
 </p>
 
+多人动作模块把角色身份、空间路线、动作节拍、武术风格和摄影/安全边界收敛到同一执行图：
+
+<p align="center">
+  <img src="../assets/multi-fighter-action-system.png" alt="Multi-Fighter Action Direction System" width="100%">
+</p>
+
 ## 与视觉资产的对应关系
 
 - `cover-banner.png`：品牌封面；
@@ -130,6 +140,7 @@ API dry-run与可选生成
 - `segmented-camera-path.png`：多段运镜节点、逐段箭头与同步俯视/侧视路线；
 - `knowledge-routing-map.png`：按任务选择参考知识、避免全量加载；
 - `seedance-multimodal-binding.png`：独立角色板、分镜、场景、运镜与音频参考的执行绑定；
+- `multi-fighter-action-system.png`：多人动作角色图、空间拓扑、套路节拍与安全边界；
 - `icons-board.png`：视觉语言与模块化图标资产板。
 - `workflow-architecture.png`：十阶段工作流与仓库结构详图；
 - `prompt-output-system.png`：单条、多条及尾帧交付结构；

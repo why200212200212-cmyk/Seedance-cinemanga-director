@@ -58,6 +58,7 @@
 - **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
 - **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、分镜页、场景板和尾帧，排除SKIP与装饰图。
 - **定点修订闭环**：每张图片、每个分镜页、每条视频和尾帧使用稳定资产ID与版本号；用户可指出“图N、角色名、VID、镜头号或某秒”，系统先展示针对性新版完整提示词供修改或确认，批准后只生成目标新版本，不满意时保留旧版且不自动连锁付费重做。
+- **多人动作导演模块**：按需设计FTR身份图、阵营目标、俯视ZONE/ACT路线、行动令牌、武术套路短句、逐拍攻防幻觉、镜头切点和结束状态；兼顾3D碰撞/绑定与真人错位/特技安全，不为炫技新增打斗。
 - **按需导演知识库**：内置23份分镜、运镜、构图、剪辑、光影、调度、景深、13字段大表、高难度镜头、一镜到底和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
 
 ## 快速安装
@@ -200,6 +201,16 @@ python scripts/seedance_client.py list --status running --filter-model ep-你的
   <img src="assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
 </p>
 
+## 多人格斗、动作设计与武术套路
+
+只有原剧本包含肢体冲突、动作追逐、对练、集体套路或兵器表演时才加载此模块。它先锁定角色和剧情，再建立多人空间拓扑、行动顺序、动作节拍、武术风格、摄影与安全边界；复杂场面优先降低并发、拆节拍或拆VID，避免所有人同时动作造成身份漂移和路线互穿。
+
+<p align="center">
+  <img src="assets/multi-fighter-action-system.png" alt="Multi-Fighter Action Direction System" width="100%">
+</p>
+
+详细规则见 [多人动作设计](references/multi-fighter-action-design.md)、[武术与影视动作来源](references/martial-arts-action-sources.md) 和 [动作扩展模板](templates/multi-fighter-action.md)。该模块输出影视画面与提示词，不替代真人现场的合格动作指导、特技协调员及当地安全规范。
+
 ## 分镜板示例资源
 
 这几张图更适合放在 **示例展示区**，用来说明本 Skill 适配的分镜板类型与视觉组织方式：
@@ -284,6 +295,7 @@ Seedance-cinemanga-director/
 │   ├── segmented-camera-path.png
 │   ├── knowledge-routing-map.png
 │   ├── seedance-multimodal-binding.png
+│   ├── multi-fighter-action-system.png
 │   ├── icons-board.png
 │   ├── storyboard-example.png
 │   ├── nine-grid-example.png
@@ -298,7 +310,8 @@ Seedance-cinemanga-director/
 │   ├── single-15s.md
 │   ├── multi-clip.md
 │   ├── storyboard-board.md
-│   └── revision-preview.md
+│   ├── revision-preview.md
+│   └── multi-fighter-action.md
 ├── references/
 │   ├── continuity-rules.md
 │   ├── character-design.md
@@ -312,6 +325,8 @@ Seedance-cinemanga-director/
 │   ├── runtime-orchestration.md
 │   ├── seedance-api.md
 │   ├── targeted-regeneration.md
+│   ├── multi-fighter-action-design.md
+│   ├── martial-arts-action-sources.md
 │   ├── prompt-compiler.md
 │   ├── knowledge-00-index.md
 │   └── knowledge-01...22（按需导演参考知识库）

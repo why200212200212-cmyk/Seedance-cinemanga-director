@@ -51,6 +51,7 @@ REQUIRED_FILES = [
     "templates/multi-clip.md",
     "templates/storyboard-board.md",
     "templates/revision-preview.md",
+    "templates/multi-fighter-action.md",
     "references/continuity-rules.md",
     "references/character-design.md",
     "references/storyboard-design.md",
@@ -64,6 +65,8 @@ REQUIRED_FILES = [
     "references/runtime-orchestration.md",
     "references/seedance-api.md",
     "references/targeted-regeneration.md",
+    "references/multi-fighter-action-design.md",
+    "references/martial-arts-action-sources.md",
     "examples/api-prompt.txt",
     "examples/example-input-script.md",
     "examples/example-output-single.md",
@@ -96,6 +99,7 @@ REQUIRED_FILES = [
     "assets/segmented-camera-path.png",
     "assets/knowledge-routing-map.png",
     "assets/seedance-multimodal-binding.png",
+    "assets/multi-fighter-action-system.png",
     "agents/openai.yaml",
 ] + KNOWLEDGE_FILES
 
@@ -156,6 +160,7 @@ def main() -> None:
         "逐镜起止时间",
         "可修订资产索引",
         "VIDEO-VID-01",
+        "多人动作扩展｜仅相关剧情",
     ]:
         if marker not in single:
             fail(f"single template missing marker: {marker}")
@@ -174,6 +179,7 @@ def main() -> None:
         "MAX 15.0s",
         "全局可修订资产索引",
         "本条可修订定位",
+        "本条多人动作扩展｜仅相关剧情",
     ]:
         if marker not in multi:
             fail(f"multi template missing marker: {marker}")
@@ -224,6 +230,25 @@ def main() -> None:
         if marker not in revision_preview:
             fail(f"revision preview template missing marker: {marker}")
 
+    multi_fighter_template = (ROOT / "templates/multi-fighter-action.md").read_text(
+        encoding="utf-8"
+    )
+    for marker in [
+        "动作叙事目标",
+        "动作风格合同",
+        "动作角色图",
+        "俯视空间与行动路线",
+        "套路短句",
+        "动作节拍表",
+        "安全与可执行性备注",
+        "Seedance动作提示词增量",
+        "FTR-ID",
+        "ZONE",
+        "CHEATED-CONTACT",
+    ]:
+        if marker not in multi_fighter_template:
+            fail(f"multi-fighter action template missing marker: {marker}")
+
     core_terms = [
         "原台词",
         "必要人物",
@@ -262,6 +287,10 @@ def main() -> None:
         "定点修订与重生成",
         "AWAITING_USER",
         "REVIEW_REQUIRED",
+        "多人格斗、动作设计与武术套路",
+        "FTR-ID",
+        "排队等待攻击",
+        "合格动作指导/特技协调员",
     ]
     for term in core_terms:
         if term not in skill:
@@ -437,6 +466,10 @@ def main() -> None:
         "角色、分镜页与API图片顺序绑定",
         "指定图片不满意并先审阅提示词",
         "指定视频时间段不满意并控制影响范围",
+        "一对三动作场面的可读并发",
+        "武术套路与人物背景一致",
+        "3D多人兵器动作的碰撞与身份锁定",
+        "高风险动作只路由专业部门",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
@@ -453,6 +486,9 @@ def main() -> None:
         "定点修订与重生成",
         "稳定资产ID",
         "明确“继续生成”",
+        "多人格斗、动作设计与武术套路",
+        "FTR-ID → CHAR-ID",
+        "枪械、爆破、火焰、车辆、高坠、钢丝、动物和真实刃具",
     ]:
         if marker not in quality_checklist:
             fail(f"quality checklist missing storyboard timing boundary: {marker}")
@@ -612,6 +648,41 @@ def main() -> None:
     ]:
         if marker not in targeted_regeneration:
             fail(f"targeted regeneration contract missing marker: {marker}")
+
+    multi_fighter_action = (
+        ROOT / "references/multi-fighter-action-design.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "模块边界",
+        "动作角色图",
+        "空间拓扑与并发控制",
+        "影视动作节拍",
+        "武术套路影视化",
+        "叙事化套路短句库",
+        "镜头与剪辑",
+        "双模式专项",
+        "输出合同",
+        "行动令牌",
+        "NO-CONTACT",
+        "CHEATED-CONTACT",
+        "templates/multi-fighter-action.md",
+    ]:
+        if marker not in multi_fighter_action:
+            fail(f"multi-fighter action reference missing marker: {marker}")
+
+    martial_arts_sources = (
+        ROOT / "references/martial-arts-action-sources.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "IWUF",
+        "Safety Bulletin #4",
+        "Actsafe",
+        "PubMed",
+        "不复制竞技计分",
+        "不是现场安全认证",
+    ]:
+        if marker not in martial_arts_sources:
+            fail(f"martial arts action sources missing boundary: {marker}")
 
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in [
