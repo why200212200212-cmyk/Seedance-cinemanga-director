@@ -35,7 +35,7 @@
 [登记所有独立角色板、场景板和连续性尾帧的稳定ID；这里只注册，不代表每条都提交。]
 
 【全局可修订资产索引】
-[为每个角色板、场景板、VID执行分镜页、视频和接力尾帧登记稳定ID、显示序号、当前版本、VID/镜头/时间范围和定位别名，例如：`IMG-CHAR-001｜角色A角色板/图1｜R01`、`IMG-VID-02-PAGE-01｜第二条分镜页｜R01`、`VIDEO-VID-02｜第二条视频｜PENDING`。版本更新时稳定ID不变，只递增Rxx。]
+[为每个角色板、场景板、VID的CLEAN/REVIEW分镜页、独立CLEAN单格、视频和接力尾帧登记稳定ID、显示序号、当前版本、VID/镜头/时间范围和定位别名，例如：`IMG-CHAR-001｜角色A角色板/图1｜R01`、`PAGE-VID02-CLEAN/REVIEW｜第二条双层分镜页｜R01`、`PANEL-VID02-03-CLEAN｜第3格/S05｜R01`、`VIDEO-VID-02｜第二条视频｜PENDING`。版本更新时稳定ID不变，只递增Rxx。]
 
 【全局详细分镜图总览（REFERENCE-ONLY OVERVIEW）】
 [只展示VID顺序、跨条剧情节拍和尾帧接力关系，不作为任何一条的执行分镜板，不直接提交生成端。镜头编号可跨条连续，但各VID执行时间轴分别从0.0秒开始。]
@@ -72,13 +72,14 @@ _::~CLIP_START::~_
 - 板式：[标准故事板 / 九宫格 / 二十五宫格 / 智能宫格]
 - 选择依据：[本条时长、镜头/关键状态数、节拍、动作复杂度与连续性风险]
 - 时间轴：[0.0–X.X秒；每个USE格标t_start–t_end和Δt；首镜从0.0秒开始，末镜在X.X秒结束]
-- 分镜图：[按templates/storyboard-board.md生成；本板只服务VID-01，不跨入下一VID]
+- 分镜图：[按templates/storyboard-board.md生成同构CLEAN/REVIEW双层与独立CLEAN单格；本板只服务VID-01，不跨入下一VID]
+- 单格选择：[按剧情与USE状态列出本条需要的PANEL-ID-CLEAN；REVIEW路线只用于自然语言编译]
 
 【本条执行素材绑定清单】
-[从全局素材注册表中只选择本条USE镜头需要的素材，并按API图片顺序重新编号：`图片1｜CHARACTER_BOARD｜CHAR-001角色名｜USE:S01,S03｜source:<URL/asset URI>`；随后列 `STORYBOARD｜VID-01/PAGE-01｜USE:S01–S03`、必要场景板和上一条尾帧。每个USE镜头必要角色都必须唯一关联独立角色板；下一VID重新生成本条清单。]
+[从全局素材注册表中只选择本条USE镜头需要的素材，并按API图片顺序重新编号：`图片1｜CHARACTER_BOARD｜CHAR-001角色名｜USE:S01,S03｜source:<URL/asset URI>`；随后列剧情选中的 `STORYBOARD_PANEL_CLEAN｜VID-01/PANEL-ID/Sxx｜时间段`、必要场景板和上一条尾帧。每个USE镜头必要角色都必须唯一关联独立角色板；PAGE/PANEL-REVIEW与无关格不进入清单；下一VID重新生成本条清单。]
 
 【本条可修订定位】
-[列 `VIDEO-VID-xx`、执行分镜页ID、Sxx与t_start–t_end、当前版本；生成完成后将PENDING更新为实际Rxx。用户不满意时据此只定位当前图片、当前VID或具体时间段。]
+[列 `VIDEO-VID-xx`、PAGE-ID、PANEL-ID/CLEAN-ASSET-ID、Sxx与t_start–t_end、当前版本；生成完成后将PENDING更新为实际Rxx。用户不满意时据此只定位当前单格、当前VID或具体时间段。]
 
 【本条多人动作扩展｜仅相关剧情】
 [若当前VID包含多人肢体冲突、动作追逐、武术套路、对练、集体动作或兵器表演，按 `templates/multi-fighter-action.md` 生成本条FTR角色图、ZONE/ACT路线、行动令牌、套路短句、逐拍动作和安全/可执行性备注；每个VID单独控制并发和结束状态。否则省略本节。]
@@ -97,16 +98,23 @@ _::~CLIP_START::~_
 【导演方案（审阅用，不粘贴到生成器）】
 [状态账本、转场合同与本条风险]
 
+【九部门导演会审｜审阅用，不粘贴到生成器】
+[按 `templates/cinematic-department-review.md` 为当前VID重新会审导演目标、PERF表演因果、视觉构造、摄影、环境光/人物光、色卡/调色、化妆、人物妆造、声音设计和混音。显式列出从上一VID继承的STYLE/PAL/LOOK/LGT/AUD/PERF字段与禁止继承项，并给出九项闸门结果。]
+
+【色卡资产｜按需】
+[按 `templates/color-palette-board.md` 为当前VID生成或继承明确作用域的PAL-ID；标注P编号、HEX、职能、绑定对象与占比，校验无UI后作为图片N｜REFERENCE-ONLY COLOR。换场时不得沿用未声明继承的旧色卡。]
+
 【可复制图片提示词】
 [本条代表性静态画面]
 
 ===
 
 【可复制视频提示词】
+按 `templates/compiled-video-prompt.md` 的固定顺序为当前VID单独编译；环境、风格、摄影、表演、色卡、妆造和声音基线各写一次，时间轴只写刺激、反应和状态变化。
 即梦Seedance视频，本条完整X秒，有音效，无音乐，无BGM，无字幕，无水印。除时间轴和转场合同明确描述的变化外，其余角色身份、服装、空间、道具、光影和天气状态保持连续；运动质感、摄影机稳定度与动作节奏服从本条剧情设计。
 
 【图片绑定】
-[逐项使用本条执行素材绑定清单的图片编号、角色ID、VID/分镜页ID和用途；不得沿用其他VID的临时图片序号。]
+[逐项使用本条执行素材绑定清单的图片编号、角色ID、VID/PANEL/CLEAN-ASSET-ID和用途；不得沿用其他VID的临时图片序号，不得提交REVIEW标注板。若包含色卡，标明REFERENCE-ONLY COLOR，只参考当前PAL的色彩分工与调色方向，不渲染标签、HEX和色块版式。]
 
 【模式专项】
 [3D仅写身份锚点、材质响应、绑定/关节、形变接触与次级运动；真人仅写帧率/快门观感、等效焦段、设备、曝光/白平衡、焦点路径、实际灯源、演员目标与阻碍]

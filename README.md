@@ -38,10 +38,10 @@
 - **必要人物过滤**：只保留当前剧情真正需要的角色；
 - **剧情分析优先**：先拆解剧情事实、台词、人物、节拍和时间预算；
 - **4–15秒自适应分镜**：每条视频分别按总时长、剧情节拍、镜头/关键状态数量和复杂度选择标准故事板、九宫格、二十五宫格或智能宫格，不按秒数机械绑定、不为凑格数改变剧情；
-- **逐镜时间分镜图**：每张执行板只服务一个视频条目，页头标4–15秒总时长与15秒上限；每格标阅读顺序、镜头序号、起止时间、单镜时长，以及 Seedance 2.0 执行所需的角色、动作、声音、光影与连续性信息；
-- **角色—分镜—API可追溯绑定**：每个USE镜头关联永久角色ID和独立角色板，每张执行分镜页绑定唯一VID；执行素材清单、视频提示词图片编号与API content严格同序；
+- **双层逐镜分镜图**：每张执行板只服务一个视频条目；CLEAN层保留无字无箭头画面，REVIEW层在同构画格上叠加时间、CAM/ACT/GAZE/FOCUS/LIGHT/READ与制作信息；
+- **角色—单格—API可追溯绑定**：每个USE格拥有稳定PANEL-ID和独立CLEAN单格，并关联永久角色ID；系统可按剧情或用户点名选择任意格生成视频，执行素材清单、视频提示词图片编号与API content严格同序；
 - **镜头使用清单**：用USE、REFERENCE-ONLY、SKIP明确哪些镜头必须生成、仅作参考或不得提交生成端；
-- **AI可辨识运镜路线**：用分段节点、逐段箭头、转向后方向、速度、机位高度及俯视/侧视小图描述完整路径；
+- **AI可辨识且成片剔除的路线**：REVIEW层用分段节点、逐段箭头、转向后方向、速度、机位高度及俯视/侧视小图描述摄影机、人物/道具、视线、焦点和光线；编译为自然语言后只提交CLEAN单格，成片不出现箭头、轨迹、节点或文字；
 - **独立角色多视角设计**：每名必要角色单独输出一张角色板，至少包含正面、左侧面、右侧面和背面；
 - **角色身份注册**：使用永久CHAR-ID、独立参考图编号和适用镜头贯通分镜、提示词与API素材顺序；
 - **人物外貌差异化**：同剧本不同角色禁止相同或高度相似的模板脸，双胞胎等明确剧情需要除外；
@@ -56,7 +56,11 @@
 - **3D制作约束**：控制材质响应、动作力学、接触、次级运动、虚拟摄影机和渲染稳定性；
 - **真人摄影约束**：明确焦段、机位、设备、景深、曝光、光源、演员微表演和现场物理；
 - **提示词编译器**：按优先级解决冲突，控制单镜复杂度，删除不会改变画面的空泛画质词。
-- **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、分镜页、场景板和尾帧，排除SKIP与装饰图。
+- **九部门导演会审**：把导演、视觉构造、摄影、环境光/人物光、调色、化妆、人物妆造、声音设计和混音收敛到同一VID合同；隔离STYLE/PAL/LOOK/LGT/AUD作用域，阻止风格串段、色卡外颜色、摄影矛盾、声画冲突和时长过载。
+- **会审后视频提示词编译**：每个VID只保留一个STYLE LOCK、一个摄影合同及一套表演/光色/妆造/声音基线；用目标—阻碍—刺激—反应和可见微动作让人物有生命感，时间轴只写变化，最终按固定顺序输出可直接提交的提示词。
+- **可执行色卡资产**：生成带PAL/P编号、HEX、职能、绑定对象和占比的无UI标注色卡；作为当前VID的REFERENCE-ONLY COLOR引用，提示词同步写出关键色号且禁止把色卡版式渲染进成片。
+- **长提示词优化**：清除UI和其他VID残留，合并重复环境/风格及中英文同义词，校正摄影术语与互斥指令，把虚假画质词转译为可观察特征，并在不改变原台词、资产、色卡和尾帧的前提下压缩生成端文本。
+- **执行素材过滤**：每条视频只提交当前USE镜头需要的独立角色板、被选CLEAN单格、场景板和尾帧，排除REVIEW标注板、无关格、SKIP与装饰图。
 - **定点修订闭环**：每张图片、每个分镜页、每条视频和尾帧使用稳定资产ID与版本号；用户可指出“图N、角色名、VID、镜头号或某秒”，系统先展示针对性新版完整提示词供修改或确认，批准后只生成目标新版本，不满意时保留旧版且不自动连锁付费重做。
 - **多人动作导演模块**：按需设计FTR身份图、阵营目标、俯视ZONE/ACT路线、行动令牌、武术套路短句、逐拍攻防幻觉、镜头切点和结束状态；兼顾3D碰撞/绑定与真人错位/特技安全，不为炫技新增打斗。
 - **按需导演知识库**：内置23份分镜、运镜、构图、剪辑、光影、调度、景深、13字段大表、高难度镜头、一镜到底和平台参考资料，先完成剧情分析，再按镜头问题精确调用，不让案例或旧参数覆盖核心规则。
@@ -195,7 +199,7 @@ python scripts/seedance_client.py list --status running --filter-model ep-你的
   <img src="assets/knowledge-routing-map.png" alt="On-demand Director Knowledge Routing" width="100%">
 </p>
 
-进入 Seedance 2.0 执行时，每名角色继续使用独立角色板，并按执行素材清单绑定场景、分镜页、可选运镜参考与音频参考。`SKIP` 与装饰图不提交生成端。
+进入 Seedance 2.0 执行时，每名角色继续使用独立角色板；系统依据小说/剧本为当前VID选择PANEL-ID，从REVIEW层读取运镜、人物运动、视线、焦点和光线路线并编译成自然语言，只把同格CLEAN单格、场景、可选色卡、首尾帧与音频按执行素材清单提交。REVIEW箭头层、无关格、`SKIP` 与装饰图不提交生成端。
 
 <p align="center">
   <img src="assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
@@ -210,6 +214,42 @@ python scripts/seedance_client.py list --status running --filter-model ep-你的
 </p>
 
 详细规则见 [多人动作设计](references/multi-fighter-action-design.md)、[武术与影视动作来源](references/martial-arts-action-sources.md) 和 [动作扩展模板](templates/multi-fighter-action.md)。该模块输出影视画面与提示词，不替代真人现场的合格动作指导、特技协调员及当地安全规范。
+
+## 九部门导演会审与视频提示词编译
+
+复杂镜头、STYLE LOCK、色卡/LUT、多参考图、特殊摄影、妆造、对白或多层声音在生成前先进入九部门会审。系统只建立一份镜头事实：导演确定注意力、戏剧目标和PERF表演因果，视觉构造锁定前中后景/尺度/遮挡，摄影锁定光学与CAM路径，灯光建立世界光源和人物光，调色绑定PAL/GRADE，化妆与人物妆造绑定LOOK，声音设计和混音绑定AUD/VOICE及优先级。
+
+会审专门检查用户案例中常见的矛盾：上一VID风格词残留、正顶视却要求地平线、鱼眼与普通变形宽银幕混写、固定机位同时自由手持、太阳误写成practical、严格色卡正文又加入新HEX、无人声同时哼唱、无BGM同时指定配乐，以及短时长内塞入过多台词/变形/运镜。
+
+详细规则见 [九部门导演会审](references/cinematic-department-review.md)、[会审模板](templates/cinematic-department-review.md)、[色卡生成与引用模板](templates/color-palette-board.md) 和 [会审后视频提示词模板](templates/compiled-video-prompt.md)。会审内容属于导演审阅层；生成端只收到压缩后的当前VID提示词。
+
+![九部门导演会审与提示词编译示例](assets/cinematic-department-review-system.svg)
+
+上图展示九个岗位如何共享同一VID事实并经过九项冲突闸门；下图使用结构化PAL表确定性绘制P编号、HEX、职能和绑定对象，说明色卡作为 `REFERENCE-ONLY COLOR` 进入视频提示词的方式。
+
+![STRICT-13色卡生成与视频引用示例](assets/color-palette-reference-example.svg)
+
+### 核心色卡示例库
+
+| 霓虹化妆间 GUIDED-10 | 宫廷夜戏 STRICT-10 | 墨家云海飞行 STRICT-12 |
+|---|---|---|
+| ![霓虹化妆间色卡](assets/palette-neon-dressing-room-example.svg) | ![宫廷夜戏色卡](assets/palette-palace-night-example.svg) | ![墨家云海飞行色卡](assets/palette-mojia-flight-example.svg) |
+
+三张色卡分别覆盖用户案例里的粉紫霓虹与冷暖人物光、宫廷夜戏的朱红/烛光/暗部层次，以及云海、朝晖、木铜机关、服装与深蓝邀请函。色卡先生成带PAL-ID、P编号、HEX、职能和对象的可审阅资产；生成视频时只引用其色彩职责和关键色号，不把色块、标签、HEX或版式渲染进成片。
+
+### 镜头、光影与人物关系
+
+![镜头、光影、人物站位与PERF合同](assets/shot-contract-lighting-blocking-example.svg)
+
+上图把世界坐标、摄影机坐标、屏幕坐标、人物与镜头的位置关系、遮挡链、环境光、人物光和刺激—反应表演放在同一镜头事实中。会审结果仍按13段固定顺序压缩：STYLE/场景/光色/妆造/声音基线只写一次，时间轴只写变化。
+
+### 电影质感与人物生命感示例
+
+| 真人影视级 | 3D影视级 |
+|---|---|
+| ![真人微表演、人物光与胶片质感示例](assets/live-action-performance-example.png) | ![3D眼神、重心、接触与材质示例](assets/3d-cinematic-performance-example.png) |
+
+真人示例强调“听见刺激后才反应”的眼神、气息、手部和倾听关系，以及有来源的人物光、真实肤质和胶片高光响应；3D示例强调身份稳定的眼神与姿态、脚底/机械足接触、重量、材质和衣发次级运动。两图都是文档示例，不会自动作为用户项目的参考素材提交生成端。
 
 ## 分镜板示例资源
 
@@ -239,6 +279,7 @@ python scripts/seedance_client.py list --status running --filter-model ep-你的
 - `character-differentiation-board.png`：用于文档说明不同角色的结构性面部差异；它是装饰性对比图，运行时仍要求每个角色使用单独角色板；
 - `ai-readable-camera-routes.png`：展示CAM、ACT、GAZE、FOCUS、LIGHT和READ路线代码、箭头及图例。
 - `segmented-camera-path.png`：展示多段运镜的连续节点、转向后的后续箭头、速度、机位高度以及同步俯视/侧视路线。
+标准、九宫格、二十五宫格和智能宫格都生成同构双层资产：`CLEAN`层只有画面，`REVIEW`层才包含CAM摄影机路线、ACT人物/物体运动、GAZE视线、FOCUS焦点、LIGHT光线和READ阅读顺序。系统按剧本推荐一个USE格，用户也可指定任一格；路线先转译成按时间排序的自然语言，随后只把对应`PANEL-ID-CLEAN`交给视频生成端。
 
 ## 文档资产与装饰图标
 
@@ -311,7 +352,10 @@ Seedance-cinemanga-director/
 │   ├── multi-clip.md
 │   ├── storyboard-board.md
 │   ├── revision-preview.md
-│   └── multi-fighter-action.md
+│   ├── multi-fighter-action.md
+│   ├── cinematic-department-review.md
+│   ├── color-palette-board.md
+│   └── compiled-video-prompt.md
 ├── references/
 │   ├── continuity-rules.md
 │   ├── character-design.md
@@ -327,6 +371,7 @@ Seedance-cinemanga-director/
 │   ├── targeted-regeneration.md
 │   ├── multi-fighter-action-design.md
 │   ├── martial-arts-action-sources.md
+│   ├── cinematic-department-review.md
 │   ├── prompt-compiler.md
 │   ├── knowledge-00-index.md
 │   └── knowledge-01...22（按需导演参考知识库）

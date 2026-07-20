@@ -25,9 +25,12 @@
 
 - `single-15s.md`：完整15秒单条；
 - `multi-clip.md`：连续多条4–15秒与尾帧合约；
-- `storyboard-board.md`：以每条4–15秒视频为单位，灵活选择标准故事板、九宫格、二十五宫格或智能宫格，并标总时长与逐镜时间。
+- `storyboard-board.md`：以每条4–15秒视频为单位，灵活选择标准故事板、九宫格、二十五宫格或智能宫格；同时导出无标记CLEAN层与带路线REVIEW层，并以PANEL-ID支持单格视频执行。
 - `revision-preview.md`：用户不满意时先展示唯一目标、诊断、新版完整提示词、锁定项和影响范围，等待编辑或批准后再定点生成。
 - `multi-fighter-action.md`：多人冲突的动作角色图、空间拓扑、套路短句、逐拍动作、摄影与制作安全扩展。
+- `cinematic-department-review.md`：九部门共享的STYLE/PAL/LOOK/PERF/LGT/AUD、摄影、空间、时间和冲突会审表。
+- `color-palette-board.md`：结构化PAL源数据、确定性标注色卡、REFERENCE-ONLY COLOR素材绑定和视频色号引用。
+- `compiled-video-prompt.md`：把已通过会审的当前VID压缩为生成端唯一视频提示词。
 
 模板只定义成品结构，不承载所有解释性规则。
 
@@ -49,6 +52,7 @@
 - 提示词编译与冲突消解。
 - 稳定资产ID、修订版本、最小重生成单位和下游 `REVIEW_REQUIRED` 传播规则；
 - 多人格斗、武术套路、动作物理、空间并发和影视特技安全边界；
+- 九部门导演会审、世界/摄影机/屏幕坐标、风格作用域、色卡、妆造、声音混音和视频提示词编译合同；
 - 23份按需导演参考知识库：工作流、镜头语言、运镜、剪辑、光影、接触风险、竖屏、提示词词典、场面调度、景深、构图、13字段大表、状态变化、高难度镜头、一镜到底与平台资料。
 
 规则文件可独立迭代，避免主入口无限膨胀。`knowledge-00-index.md` 负责路由和优先级；`knowledge-01...22` 只提供参考，不升级为硬规则，也不得一次性全部加载。
@@ -63,7 +67,7 @@
 
 ### 5. 资产层：`assets/`
 
-存放项目主视觉、架构图、技能总览、图标资产板，以及九宫格、二十五宫格、智能宫格、标准故事板和角色差异化等示例图片。图片用于文档展示和视觉说明；生成任务仍以文字规则、角色板与当前分镜图为执行依据。
+存放项目主视觉、架构图、技能总览、图标资产板，以及九宫格、二十五宫格、智能宫格、标准故事板、色卡、镜头合同和角色差异化等示例图片。仓库文档图只用于说明；实际视频生成以文字合同、角色板、用户或剧情选中的CLEAN单格及当前VID素材清单为依据。
 
 ### 6. 验证层：`scripts/` 与 `tests/`
 
@@ -97,19 +101,21 @@
   ↓
 镜头合约与表演调度
   ↓
-对白时长、光影、声音设计
+对白时长与九部门导演会审：导演/PERF / 视觉构造 / 摄影 / 光影 / 调色 / 化妆 / 妆造 / 声音 / 混音
   ↓
 CAM / ACT / GAZE / FOCUS / LIGHT路线规划
   ↓
-详细分镜图：单VID、总时长≤15秒、逐镜起止时间/Δt、镜头序号、阅读顺序与执行标注
+详细分镜双层：CLEAN纯画面 + 同构REVIEW路线标注；单VID、总时长≤15秒、逐镜起止时间/Δt与稳定PANEL-ID
   ↓
 3D / 真人专项真实感校验
   ↓
 连续性与尾帧校验
   ↓
-提示词编译：排除SKIP与制作标注，保留身份和执行锚点
+按剧情推荐或用户指定选择PANEL-ID → REVIEW路线编译为自然语言 → 剔除制作标记
   ↓
-执行素材清单：独立角色板 / 当前分镜页 / 场景板 / 尾帧
+会审后视频提示词编译：唯一STYLE LOCK / 摄影与PERF合同 / 光色妆造声音基线 / 变化时间轴
+  ↓
+执行素材清单：独立角色板 / 被选PANEL-ID-CLEAN / 场景板 / REFERENCE-ONLY COLOR色卡 / 尾帧
   ↓
 API dry-run与可选生成
 ```
@@ -119,6 +125,18 @@ API dry-run与可选生成
 <p align="center">
   <img src="../assets/seedance-multimodal-binding.png" alt="Seedance Multimodal Asset Binding" width="100%">
 </p>
+
+九部门共享事实、PERF表演合同与提示词编译关系见下图；它只解释架构，不作为运行时输入：
+
+![九部门导演会审与提示词编译](../assets/cinematic-department-review-system.svg)
+
+STRICT-13色卡的确定性标注与视频引用关系见下图：
+
+![色卡生成与引用](../assets/color-palette-reference-example.svg)
+
+镜头空间、人物站位、环境光/人物光和PERF合同的协同见：
+
+![镜头、光影、站位与表演合同](../assets/shot-contract-lighting-blocking-example.svg)
 
 多人动作模块把角色身份、空间路线、动作节拍、武术风格和摄影/安全边界收敛到同一执行图：
 
@@ -141,6 +159,14 @@ API dry-run与可选生成
 - `knowledge-routing-map.png`：按任务选择参考知识、避免全量加载；
 - `seedance-multimodal-binding.png`：独立角色板、分镜、场景、运镜与音频参考的执行绑定；
 - `multi-fighter-action-system.png`：多人动作角色图、空间拓扑、套路节拍与安全边界；
+- `cinematic-department-review-system.svg`：九部门共享事实、PERF表演与提示词编译；
+- `color-palette-reference-example.svg`：STRICT-13结构化色卡与视频引用；
+- `palette-neon-dressing-room-example.svg`：霓虹化妆间GUIDED-10、人物光和肤色保护色卡；
+- `palette-palace-night-example.svg`：宫廷夜戏STRICT-10环境、烛光与人物/生物材质色卡；
+- `palette-mojia-flight-example.svg`：云海机关飞行STRICT-12环境、材质、服装和道具色卡；
+- `shot-contract-lighting-blocking-example.svg`：坐标、构图、站位、遮挡、光影和表演合同；
+- `live-action-performance-example.png`：真人微表演、人物光、肤质和胶片响应；
+- `3d-cinematic-performance-example.png`：3D眼神、重心、接触、材质与次级运动；
 - `icons-board.png`：视觉语言与模块化图标资产板。
 - `workflow-architecture.png`：十阶段工作流与仓库结构详图；
 - `prompt-output-system.png`：单条、多条及尾帧交付结构；

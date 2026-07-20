@@ -7,6 +7,7 @@ import re
 import struct
 import sys
 from typing import NoReturn
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -52,6 +53,9 @@ REQUIRED_FILES = [
     "templates/storyboard-board.md",
     "templates/revision-preview.md",
     "templates/multi-fighter-action.md",
+    "templates/cinematic-department-review.md",
+    "templates/color-palette-board.md",
+    "templates/compiled-video-prompt.md",
     "references/continuity-rules.md",
     "references/character-design.md",
     "references/storyboard-design.md",
@@ -67,6 +71,7 @@ REQUIRED_FILES = [
     "references/targeted-regeneration.md",
     "references/multi-fighter-action-design.md",
     "references/martial-arts-action-sources.md",
+    "references/cinematic-department-review.md",
     "examples/api-prompt.txt",
     "examples/example-input-script.md",
     "examples/example-output-single.md",
@@ -100,6 +105,14 @@ REQUIRED_FILES = [
     "assets/knowledge-routing-map.png",
     "assets/seedance-multimodal-binding.png",
     "assets/multi-fighter-action-system.png",
+    "assets/cinematic-department-review-system.svg",
+    "assets/color-palette-reference-example.svg",
+    "assets/palette-neon-dressing-room-example.svg",
+    "assets/palette-palace-night-example.svg",
+    "assets/palette-mojia-flight-example.svg",
+    "assets/shot-contract-lighting-blocking-example.svg",
+    "assets/live-action-performance-example.png",
+    "assets/3d-cinematic-performance-example.png",
     "agents/openai.yaml",
 ] + KNOWLEDGE_FILES
 
@@ -211,6 +224,11 @@ def main() -> None:
         "Δt",
         "MAX 15.0s",
         "本板只服务当前VID",
+        "双层分镜资产",
+        "PAGE-VID01-CLEAN",
+        "PAGE-VID01-REVIEW",
+        "PANEL-ID-CLEAN",
+        "REVIEW-ONLY DIRECTION",
     ]:
         if marker not in storyboard:
             fail(f"storyboard template missing marker: {marker}")
@@ -248,6 +266,69 @@ def main() -> None:
     ]:
         if marker not in multi_fighter_template:
             fail(f"multi-fighter action template missing marker: {marker}")
+
+    department_template = (
+        ROOT / "templates/cinematic-department-review.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "镜头唯一事实",
+        "风格作用域",
+        "世界坐标",
+        "摄影机坐标",
+        "屏幕坐标",
+        "环境光与人物光",
+        "色卡与调色",
+        "化妆与人物妆造",
+        "人物表演与生命感",
+        "声音设计与混音",
+        "时间与注意力预算",
+        "九项冲突闸门",
+        "生成端编译摘要",
+    ]:
+        if marker not in department_template:
+            fail(f"department review template missing marker: {marker}")
+
+    palette_template = (ROOT / "templates/color-palette-board.md").read_text(
+        encoding="utf-8"
+    )
+    for marker in [
+        "色卡源数据",
+        "PAL-ID",
+        "GUIDED",
+        "STRICT-N",
+        "P01",
+        "标注色卡版式",
+        "REFERENCE-ONLY COLOR",
+        "视频提示词引用格式",
+        "不渲染色块、文字、HEX、边框或版式",
+        "色卡质检",
+    ]:
+        if marker not in palette_template:
+            fail(f"color palette template missing marker: {marker}")
+
+    compiled_video_template = (
+        ROOT / "templates/compiled-video-prompt.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "任务与输出",
+        "素材绑定",
+        "STYLE LOCK｜仅VID-xx",
+        "摄影合同",
+        "场景、人物与空间",
+        "表演与生命感",
+        "时间轴",
+        "环境光与人物光",
+        "色卡与调色",
+        "妆造连续性",
+        "声音与混音",
+        "尾帧合同",
+        "高风险负面约束",
+        "REFERENCE-ONLY COLOR",
+        "PANEL-ID-CLEAN",
+        "PAGE/PANEL-REVIEW",
+    ]:
+        if marker not in compiled_video_template:
+            fail(f"compiled video prompt template missing marker: {marker}")
 
     core_terms = [
         "原台词",
@@ -291,6 +372,15 @@ def main() -> None:
         "FTR-ID",
         "排队等待攻击",
         "合格动作指导/特技协调员",
+        "九部门导演会审与视频提示词编译",
+        "世界坐标",
+        "摄影机坐标",
+        "屏幕坐标",
+        "STYLE LOCK",
+        "STRICT-N",
+        "REFERENCE-ONLY COLOR",
+        "templates/color-palette-board.md",
+        "templates/compiled-video-prompt.md",
     ]
     for term in core_terms:
         if term not in skill:
@@ -470,6 +560,18 @@ def main() -> None:
         "武术套路与人物背景一致",
         "3D多人兵器动作的碰撞与身份锁定",
         "高风险动作只路由专业部门",
+        "跨VID STYLE LOCK污染",
+        "摄影与世界光源冲突",
+        "严格色卡生成、标注与视频引用",
+        "环境光、人物光与妆造协同",
+        "短时长变形、对白和声音过载",
+        "无人声、哼唱与BGM互斥",
+        "会审后唯一视频提示词",
+        "复合分镜板文字与画面分离",
+        "长提示词重复与界面残留优化",
+        "参考作品按职能转译",
+        "宣传画质词与幻想主体兼容",
+        "双层分镜、单格选择与制作路线剔除",
     ]:
         if marker not in acceptance_cases:
             fail(f"acceptance cases missing boundary: {marker}")
@@ -489,6 +591,12 @@ def main() -> None:
         "多人格斗、动作设计与武术套路",
         "FTR-ID → CHAR-ID",
         "枪械、爆破、火焰、车辆、高坠、钢丝、动物和真实刃具",
+        "九部门导演会审与视频提示词",
+        "REFERENCE-ONLY COLOR",
+        "GUIDED或STRICT-N",
+        "不渲染色块、文字、HEX或版式",
+        "PANEL-ID-CLEAN",
+        "CLEAN与REVIEW层",
     ]:
         if marker not in quality_checklist:
             fail(f"quality checklist missing storyboard timing boundary: {marker}")
@@ -556,7 +664,7 @@ def main() -> None:
         "OpenClaw",
         "分镜形式决策",
         "角色设计与注册",
-        "状态与镜头规划",
+        "状态、镜头与九部门会审",
         "详细分镜图",
         "执行素材清单",
         "--dry-run",
@@ -564,6 +672,11 @@ def main() -> None:
         "定点修订",
         "AWAITING_USER",
         "不得无上限自动重试",
+        "九部门会审",
+        "templates/compiled-video-prompt.md",
+        "REFERENCE-ONLY COLOR",
+        "单格选择与导演编译",
+        "PANEL-ID-CLEAN",
     ]:
         if marker not in runtime:
             fail(f"runtime orchestration missing boundary: {marker}")
@@ -579,6 +692,17 @@ def main() -> None:
         "分镜到视频提示词的编译",
         "按时间排序的自然语言运镜",
         "角色、分镜与API素材绑定",
+        "九部门会审到视频提示词",
+        "提示词卫生检查",
+        "templates/compiled-video-prompt.md",
+        "长提示词优化流水线",
+        "语句级压缩",
+        "输出参数与创作描述隔离",
+        "优化后差异摘要",
+        "强电影质感编译",
+        "人物生命感编译",
+        "宫格单格选择与路线层剥离",
+        "PANEL-ID-CLEAN",
     ]:
         if marker not in prompt_compiler:
             fail(f"prompt compiler missing execution rule: {marker}")
@@ -602,6 +726,10 @@ def main() -> None:
         "定点重生成",
         "新候选任务",
         "REVIEW_REQUIRED",
+        "REFERENCE-ONLY COLOR",
+        "文字PAL合同",
+        "PANEL-ID-CLEAN",
+        "PAGE/PANEL-REVIEW",
     ]:
         if marker not in api_contract:
             fail(f"Seedance API contract missing material filter: {marker}")
@@ -615,6 +743,10 @@ def main() -> None:
         "SKIP",
         "宿主工具映射",
         "doctor --remote",
+        "REFERENCE-ONLY COLOR",
+        "文字PAL合同",
+        "PANEL-ID",
+        "PAGE/PANEL-REVIEW",
     ]:
         if marker not in agent_integration:
             fail(f"agent integration missing execution boundary: {marker}")
@@ -684,6 +816,31 @@ def main() -> None:
         if marker not in martial_arts_sources:
             fail(f"martial arts action sources missing boundary: {marker}")
 
+    department_review = (
+        ROOT / "references/cinematic-department-review.md"
+    ).read_text(encoding="utf-8")
+    for marker in [
+        "模块边界",
+        "唯一事实与作用域",
+        "三套坐标必须分离",
+        "九部门会审顺序",
+        "视频调色",
+        "化妆",
+        "人物妆造",
+        "听觉构造",
+        "调音",
+        "时间与复杂度闸门",
+        "电影质感与人物生命感闸门",
+        "冲突闸门",
+        "双模式专项",
+        "输出合同",
+        "PERF-ID",
+        "templates/color-palette-board.md",
+        "templates/compiled-video-prompt.md",
+    ]:
+        if marker not in department_review:
+            fail(f"department review reference missing marker: {marker}")
+
     openai_yaml = (ROOT / "agents/openai.yaml").read_text(encoding="utf-8")
     for marker in [
         "display_name:",
@@ -746,6 +903,55 @@ def main() -> None:
             "duplicate PNG content: "
             + "; ".join(", ".join(names) for names in duplicate_groups)
         )
+
+    svg_markers = {
+        "assets/cinematic-department-review-system.svg": [
+            "CINEMATIC PROMPT COMPILER",
+            "DIRECTOR / PERF",
+            "09 MIXING",
+            "EXECUTABLE VIDEO PROMPT",
+        ],
+        "assets/color-palette-reference-example.svg": [
+            "STRICT-13",
+            "#F0B670",
+            "#4FC3D9",
+            "REFERENCE-ONLY COLOR",
+        ],
+        "assets/palette-neon-dressing-room-example.svg": [
+            "GUIDED-10",
+            "#A23C8E",
+            "SKIN PROTECTION",
+            "REFERENCE-ONLY COLOR",
+        ],
+        "assets/palette-palace-night-example.svg": [
+            "STRICT-10",
+            "#6E2820",
+            "STRICT COLOR CONTRACT",
+            "REFERENCE-ONLY COLOR",
+        ],
+        "assets/palette-mojia-flight-example.svg": [
+            "STRICT-12",
+            "#1F2840",
+            "INVITATION",
+            "REFERENCE-ONLY COLOR",
+        ],
+        "assets/shot-contract-lighting-blocking-example.svg": [
+            "SHOT CONTRACT",
+            "WORLD PLAN",
+            "人物光",
+            "PERF-CHAR-A",
+        ],
+    }
+    for relative_path, markers in svg_markers.items():
+        path = ROOT / relative_path
+        try:
+            ET.parse(path)
+        except ET.ParseError as exc:
+            fail(f"invalid SVG XML: {relative_path}: {exc}")
+        text = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                fail(f"SVG example missing marker: {relative_path}: {marker}")
 
     link_pattern = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
     for path in ROOT.rglob("*.md"):

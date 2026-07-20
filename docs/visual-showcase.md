@@ -32,6 +32,23 @@
 - `assets/visual-assets-qa.png`：视觉资产与连续性质检；
 - `assets/feature-overview.png`：双影视引擎、核心规则和交付能力总览。
 
+### README / 九部门会审、色卡与人物生命感
+
+- `assets/cinematic-department-review-system.svg`：展示唯一镜头事实、九部门职责、PERF表演合同、九项冲突闸门和最终视频提示词编译；
+- `assets/color-palette-reference-example.svg`：展示STRICT-13色卡的P编号、HEX、职能、绑定对象和REFERENCE-ONLY COLOR引用；
+- `assets/live-action-performance-example.png`：展示真人近景的刺激—反应、眼神、气息、手部、倾听、人物光、皮肤与胶片响应；
+- `assets/3d-cinematic-performance-example.png`：展示3D角色的眼神聚焦、重心、接触、材质与衣发次级运动。
+- `assets/shot-contract-lighting-blocking-example.svg`：展示世界/摄影机/屏幕坐标、人物位置和朝向、遮挡链、环境光与人物光、PERF刺激—反应的同镜头协同；
+- 作用：把抽象的“电影感”和“人物生动”转换成可观察的验收目标；只用于文档展示，不自动提交Seedance。
+
+### README / 核心色卡示例库
+
+- `assets/color-palette-reference-example.svg`：通用STRICT-13结构示例；
+- `assets/palette-neon-dressing-room-example.svg`：霓虹化妆间GUIDED-10与肤色保护；
+- `assets/palette-palace-night-example.svg`：宫廷夜戏STRICT-10与烛光/暗部层次；
+- `assets/palette-mojia-flight-example.svg`：云海机关飞行STRICT-12与木、铜、服装、道具绑定。
+- 作用：示范色卡生成后如何以PAL-ID、P编号、HEX、对象和职责进入视频提示词；色卡是REFERENCE-ONLY COLOR，不把色块、标签或版式生成到成片。
+
 ### README / 分镜板示例资源
 
 - `assets/storyboard-example.png`
@@ -40,7 +57,7 @@
 - `assets/adaptive-storyboard-workflow.png`
 - `assets/ai-readable-camera-routes.png`
 - `assets/segmented-camera-path.png`
-- 作用：让用户直观看到标准分镜板、九宫格、二十五格、智能宫格，以及AI可辨识的运镜/动作/视线/焦点/光线/阅读路线语法和分段转向后的后续方向。
+- 作用：让用户直观看到标准分镜板、九宫格、二十五格、智能宫格，AI可辨识的运镜/动作/视线/焦点/光线/阅读路线语法，以及REVIEW路线被转成自然语言后只提交被选CLEAN单格的执行边界。
 
 ### README / 角色身份与差异化
 
@@ -69,4 +86,6 @@
 
 - 不要把这些图片直接嵌入 `SKILL.md` 的核心规则正文中，避免运行时上下文被文档装饰内容污染；
 - 不要把图片当成唯一说明来源，关键规则仍应保留文字版；
+- 色卡和流程图需要精确文字时优先使用确定性SVG/排版，不依赖图像模型生成HEX与长标签；
+- 分镜制作标记只存在于REVIEW副本；CLEAN页和独立CLEAN单格不得带箭头、节点、图例、标签或边框内标注；
 - 不保留逐字节相同的图片别名；公开前使用内容哈希去重。

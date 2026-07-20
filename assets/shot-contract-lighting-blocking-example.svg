@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">镜头、人物站位与环境人物光合同示例</title>
+  <desc id="desc">展示世界坐标、摄影机坐标、屏幕坐标、遮挡链、摄影合同、光位和PERF表演因果。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06131d"/><stop offset="1" stop-color="#010304"/></linearGradient><pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#345366" stroke-opacity=".17"/></pattern><marker id="goldArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6z" fill="#efbd70"/></marker><marker id="cyanArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6z" fill="#4fc3d9"/></marker><style>.s{font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif}.g{fill:#efbd70}.c{fill:#78d7e9}.w{fill:#edf2f4}.m{fill:#91a4af}.card{fill:#07111a;stroke:#8d6738;stroke-width:2}.sub{fill:#0a1b27;stroke:#31566a;stroke-width:1.5}.small{font-size:17px}.tiny{font-size:15px}</style></defs>
+  <rect width="1600" height="900" fill="url(#bg)"/><rect width="1600" height="900" fill="url(#grid)"/>
+  <path d="M28 75V28h230M1342 28h230v47M28 825v47h230M1342 872h230v-47" fill="none" stroke="#8d6738" stroke-width="2"/>
+  <text x="800" y="78" text-anchor="middle" class="s g" font-size="43" font-weight="700" letter-spacing="3">SHOT CONTRACT · LIGHTING · BLOCKING</text>
+  <text x="800" y="120" text-anchor="middle" class="s c" font-size="23" letter-spacing="5">镜头规格 · 人物与镜头关系 · 环境光 / 人物光</text>
+
+  <g transform="translate(60 160)" class="s">
+    <rect width="930" height="600" rx="20" class="card"/>
+    <text x="28" y="42" class="g" font-size="22" font-weight="700">WORLD PLAN / 世界坐标俯视图</text>
+    <rect x="35" y="72" width="860" height="455" rx="16" fill="#071018" stroke="#31566a" stroke-width="2"/>
+    <rect x="640" y="88" width="210" height="32" fill="#3A88B8" opacity=".65"/><text x="745" y="110" text-anchor="middle" class="w tiny">右后方雨窗 / LGT-BLUE</text>
+    <rect x="70" y="150" width="88" height="160" rx="8" fill="#A23C8E" opacity=".45"/><text x="114" y="336" text-anchor="middle" class="m tiny">霓虹实用灯</text>
+    <circle cx="220" cy="294" r="34" fill="#C9763A" opacity=".35" stroke="#efbd70" stroke-width="2"/><text x="220" y="300" text-anchor="middle" class="w tiny">KEY</text>
+
+    <g transform="translate(420 265)"><circle r="42" fill="#112d3d" stroke="#4fc3d9" stroke-width="3"/><text y="7" text-anchor="middle" class="c" font-size="22" font-weight="700">A</text><path d="M0 42v86" stroke="#4fc3d9" stroke-width="5"/><path d="M0 72l-30 44M0 72l33 35" stroke="#4fc3d9" stroke-width="4"/><text x="-92" y="138" text-anchor="middle" class="w small">CHAR-A / PERF-A</text></g>
+    <g transform="translate(590 245)"><circle r="38" fill="#2f2215" stroke="#efbd70" stroke-width="3"/><text y="7" text-anchor="middle" class="g" font-size="22" font-weight="700">B</text><path d="M0 38v78" stroke="#efbd70" stroke-width="5"/><path d="M0 66l-25 39M0 66l29 33" stroke="#efbd70" stroke-width="4"/><text x="0" y="142" text-anchor="middle" class="w small">CHAR-B / LISTENER</text></g>
+
+    <rect x="292" y="412" width="220" height="64" rx="18" fill="#1b2228" stroke="#8d6738" stroke-width="2"/><text x="402" y="441" text-anchor="middle" class="g small">FOREGROUND PROP</text><text x="402" y="465" text-anchor="middle" class="m tiny">遮挡A下身约35%</text>
+    <g transform="translate(600 475)"><path d="M-52 16L0-40l52 56z" fill="#0b2a35" stroke="#4fc3d9" stroke-width="3"/><circle cy="24" r="23" fill="#071018" stroke="#4fc3d9" stroke-width="3"/><text y="31" text-anchor="middle" class="c" font-size="18">CAM</text></g>
+    <path d="M600 435L455 305M600 435L650 285" fill="#4fc3d9" fill-opacity=".06" stroke="#4fc3d9" stroke-width="2" stroke-dasharray="8 7"/>
+    <path d="M254 294L374 294" stroke="#efbd70" stroke-width="4" marker-end="url(#goldArrow)"/><text x="312" y="280" text-anchor="middle" class="g tiny">暖人物主光</text>
+    <path d="M742 124L630 222" stroke="#4fc3d9" stroke-width="4" marker-end="url(#cyanArrow)"/><text x="735" y="152" class="c tiny">冷蓝轮廓</text>
+    <path d="M140 220L366 256" stroke="#D06BB8" stroke-width="4" marker-end="url(#goldArrow)"/><text x="205" y="202" class="w tiny">粉紫环境光</text>
+    <path d="M456 247Q510 210 558 235" fill="none" stroke="#edf2f4" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#cyanArrow)"/><text x="510" y="198" text-anchor="middle" class="w tiny">视线 A → 声源 / B → A手部</text>
+    <text x="40" y="566" class="m small">遮挡链：前景化妆桌 ＞ CHAR-A下身 ＞ CHAR-B ＞ 雨窗　｜　固定光源不随摄影机移动而翻转</text>
+  </g>
+
+  <g transform="translate(1020 160)" class="s">
+    <rect width="520" height="600" rx="20" class="card"/>
+    <text x="28" y="42" class="g" font-size="22" font-weight="700">CAM-VID-DEMO-01 / 摄影合同</text>
+    <g transform="translate(24 70)"><rect width="472" height="112" rx="13" class="sub"/><text x="20" y="30" class="c small" font-weight="700">介质与光学</text><text x="20" y="58" class="w tiny">35mm胶片响应感 · 16:9 · 50mm等效</text><text x="20" y="84" class="w tiny">T2.0浅景深 · 主焦点2.4m · 自然运动模糊</text><text x="20" y="106" class="m tiny">胶片规格 ≠ 镜头焦段</text></g>
+    <g transform="translate(24 196)"><rect width="472" height="112" rx="13" class="sub"/><text x="20" y="30" class="c small" font-weight="700">机位与运动</text><text x="20" y="58" class="w tiny">高度0.8m · 略仰18° · 三脚架固定</text><text x="20" y="84" class="w tiny">无pan / 无zoom / 无dolly · 只允许现场微震</text><text x="20" y="106" class="m tiny">停止构图：A右1/3，B左中景</text></g>
+    <g transform="translate(24 322)"><rect width="472" height="112" rx="13" class="sub"/><text x="20" y="30" class="c small" font-weight="700">LGT / PAL</text><text x="20" y="58" class="w tiny">P04粉紫环境 · P06冷蓝轮廓 · P08暖人物光</text><text x="20" y="84" class="w tiny">面部与眼睛可读，肤色不被综合色吞没</text><text x="20" y="106" class="m tiny">雨、雾、反射只显示已有光路</text></g>
+    <g transform="translate(24 448)"><rect width="472" height="126" rx="13" class="sub"/><text x="20" y="30" class="c small" font-weight="700">PERF-CHAR-A / 表演因果</text><text x="20" y="58" class="w tiny">目标：保持镇定　阻碍：画外异响　策略：掩饰</text><text x="20" y="84" class="w tiny">声音刺激 → 视线停顿 → 短吸气 → 手指抓紧衣角</text><text x="20" y="108" class="m tiny">B只做倾听反应，不抢主要台词与视觉焦点</text></g>
+  </g>
+  <g transform="translate(60 790)" class="s"><rect width="1480" height="62" rx="18" fill="#0a1d28" stroke="#4fc3d9" stroke-width="2"/><text x="740" y="39" text-anchor="middle" class="c" font-size="19" font-weight="700">世界坐标 → 摄影机坐标 → 屏幕坐标　｜　光位 → 材质响应 → 人物可读　｜　刺激 → 反应 → 尾帧</text></g>
+</svg>
