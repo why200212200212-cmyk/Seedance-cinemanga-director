@@ -35,16 +35,22 @@ _::~OUTPUT_START::~_
 [角色ID → 角色名 → 独立角色板/图片编号 → 身份锚点 → 固定外观 → 适用镜头 → 禁止混淆对象。]
 
 【可修订资产索引】
-[为每个可生成目标登记稳定ID、显示序号、当前版本和定位别名：`IMG-CHAR-001｜角色A角色板/图1｜R01`、`IMG-VID-01-PAGE-01｜VID-01执行分镜页/图N｜R01`、`VIDEO-VID-01｜本条视频｜PENDING`、`IMG-VID-01-TAIL｜接力尾帧｜PENDING`。版本更新时稳定ID不变，只递增Rxx；后续用户可按ID、图片序号、角色名、镜头号或时间段要求定点修订。]
+[为每个可生成目标登记稳定ID、显示序号、当前版本和定位别名：`IMG-CHAR-001｜角色A角色板/图1｜R01`、`PAGE-VID01-CLEAN/REVIEW｜VID-01双层分镜页｜R01`、`PANEL-VID01-01-CLEAN｜第1格/S01｜R01`、`VIDEO-VID-01｜本条视频｜PENDING`、`IMG-VID-01-TAIL｜接力尾帧｜PENDING`。版本更新时稳定ID不变，只递增Rxx；后续用户可按ID、图片序号、PANEL-ID、角色名、镜头号或时间段要求定点修订。]
 
 【执行素材绑定清单】
-[按图片编号逐项输出：`图片1｜CHARACTER_BOARD｜CHAR-001角色名｜USE:S01,S03｜source:<提示词阶段待定；执行阶段填HTTPS URL或asset URI>`；角色板之后列当前VID分镜页、必要场景板和上一条尾帧。每个USE镜头中的必要角色必须能反查到唯一角色板；分镜页写明 `VID-01/PAGE-01 → S01–S03`；该顺序就是API content顺序。]
+[按图片编号逐项输出：`图片1｜CHARACTER_BOARD｜CHAR-001角色名｜USE:S01,S03｜source:<提示词阶段待定；执行阶段填HTTPS URL或asset URI>`；角色板之后只列剧情选中的 `PANEL-ID-CLEAN → Sxx/Sxx-Kxx → VID时间段`、必要场景板和上一条尾帧。每个USE镜头中的必要角色必须能反查到唯一角色板；PAGE/PANEL-REVIEW及箭头标注禁止进入清单；该顺序就是API content顺序。]
 
 【详细分镜图】
-[按已选形式和 `templates/storyboard-board.md` 生成高分辨率分镜图。本板只对应VID-01；页头显示 `VID-01｜T_video=15.0s｜0.0–15.0s｜MAX 15.0s`。每个USE格标注镜头序号S01起、阅读顺序、逐镜起止时间、单镜时长Δt、景别、机位/焦段感、构图、角色ID/站位/视线/动作、AI可辨识运镜箭头路线、原台词/声音、道具、光影、转场与连续性锚点；首镜从0.0秒开始，末镜在15.0秒结束；标注置于边框或信息栏，不遮挡画面主体。]
+[按已选形式和 `templates/storyboard-board.md` 生成同构双层高分辨率分镜：CLEAN层无字无箭头，REVIEW层在相同画格上叠加镜头号、阅读顺序、逐镜起止时间、单镜时长Δt与AI可辨识路线。每个USE格分配PANEL-ID并导出独立CLEAN单格。本板只对应VID-01；REVIEW页头显示 `VID-01｜T_video=15.0s｜0.0–15.0s｜MAX 15.0s`。REVIEW信息栏继续保留景别、机位/焦段感、构图、角色ID/站位/视线/动作、原台词/声音、道具、光影、转场和连续性锚点；首镜从0.0秒开始，末镜在15.0秒结束。路线标注置于边框或信息栏；实际视频按剧情选择PANEL-ID，先把路线编译成自然语言，再只提交CLEAN单格。]
 
 【多人动作扩展｜仅相关剧情】
 [若本条包含多人肢体冲突、动作追逐、武术套路、对练、集体动作或兵器表演，按 `templates/multi-fighter-action.md` 插入动作叙事目标、FTR角色图、俯视ZONE/ACT路线、套路短句、逐拍动作、安全/可执行性备注和Seedance动作提示词增量；否则省略本节。]
+
+【九部门导演会审｜审阅用，不粘贴到生成器】
+[按 `templates/cinematic-department-review.md` 统一当前VID的导演目标、PERF表演因果、视觉构造、摄影、环境光/人物光、色卡/调色、化妆、人物妆造、声音设计和混音；STYLE LOCK、PAL、LOOK、LGT、AUD、PERF只从当前VID继承。列出九项闸门的PASS/RESOLVE/ASK结果。]
+
+【色卡资产｜按需】
+[需要锁定色彩时按 `templates/color-palette-board.md` 建立PAL-ID、GUIDED/STRICT-N模式、P编号/HEX/对象/占比，生成并校验无UI标注色卡；登记为当前VID的图片N｜REFERENCE-ONLY COLOR。]
 
 【导演方案（审阅用，不粘贴到生成器）】
 
@@ -54,10 +60,11 @@ _::~OUTPUT_START::~_
 ===
 
 【可复制视频提示词】
+按 `templates/compiled-video-prompt.md` 的固定顺序编译；本条只保留一个STYLE LOCK、一个摄影合同、一套表演/光色/妆造/声音基线，时间轴只写刺激、反应和状态变化。
 即梦Seedance视频，完整15秒，单条视频，有音效，无音乐，无BGM，无字幕，无水印。除时间轴明确描述的变化外，其余角色身份、服装、空间、道具、光影和天气状态保持连续；运动质感、摄影机稳定度与动作节奏服从本镜剧情设计。
 
 【图片绑定】
-[逐项使用与执行素材绑定清单相同的图片编号、角色ID、VID/分镜页ID和用途；不得在提示词中交换编号或把多人合并图当成独立角色板。]
+[逐项使用与执行素材绑定清单相同的图片编号、角色ID、VID/PANEL/CLEAN-ASSET-ID和用途；不得在提示词中交换编号、把多人合并图当成独立角色板或提交REVIEW标注板。若包含色卡，明确其为REFERENCE-ONLY COLOR，只引用P编号、色彩分工与相对占比，不渲染色块、文字、HEX、边框或版式。]
 
 【人物与连续性锁定】
 - 必须出现：[角色]

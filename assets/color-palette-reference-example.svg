@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">STRICT-13电影色卡生成与视频引用示例</title>
+  <desc id="desc">展示十三个带P编号、HEX、职能和绑定对象的色卡，以及REFERENCE-ONLY COLOR引用规则。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07131d"/><stop offset="1" stop-color="#010304"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#27414d" stroke-opacity=".16"/></pattern>
+    <style>
+      .sans{font-family:"Microsoft YaHei","Noto Sans SC",Arial,sans-serif}.serif{font-family:Georgia,"Times New Roman",serif}
+      .gold{fill:#edc47f}.cyan{fill:#79d8eb}.white{fill:#eef3f4}.muted{fill:#8ca0aa}
+      .label{font-size:15px}.hex{font-size:16px;font-weight:700;letter-spacing:.5px}.card{fill:#081018;stroke:#8e6b3a;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/><rect width="1600" height="900" fill="url(#grid)"/>
+  <path d="M28 72V28H245M1355 28h217v44M28 828v44h217M1355 872h217v-44" fill="none" stroke="#8e6b3a" stroke-width="2"/>
+  <text x="800" y="76" text-anchor="middle" class="serif gold" font-size="46" font-weight="700" letter-spacing="4">PAL-VID-DEMO-01 · STRICT-13</text>
+  <text x="800" y="116" text-anchor="middle" class="sans cyan" font-size="23" letter-spacing="6">色卡生成 · 精确标注 · 视频提示词引用</text>
+  <text x="800" y="148" text-anchor="middle" class="sans muted" font-size="16">GOLDEN HOUR DECK · GRADE-FILM-01 · REFERENCE-ONLY COLOR</text>
+
+  <g transform="translate(42 190)" class="sans">
+    <g transform="translate(0)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#F0B670"/><text x="56" y="224" text-anchor="middle" class="gold hex">P01</text><text x="56" y="248" text-anchor="middle" class="white hex">#F0B670</text><text x="56" y="276" text-anchor="middle" class="muted label">自然光</text><text x="56" y="300" text-anchor="middle" class="muted label">金色直射</text></g>
+    <g transform="translate(120)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#C8581F"/><text x="56" y="224" text-anchor="middle" class="gold hex">P02</text><text x="56" y="248" text-anchor="middle" class="white hex">#C8581F</text><text x="56" y="276" text-anchor="middle" class="muted label">环境色</text><text x="56" y="300" text-anchor="middle" class="muted label">落日天空</text></g>
+    <g transform="translate(240)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#4A5870"/><text x="56" y="224" text-anchor="middle" class="gold hex">P03</text><text x="56" y="248" text-anchor="middle" class="white hex">#4A5870</text><text x="56" y="276" text-anchor="middle" class="muted label">阴影倾向</text><text x="56" y="300" text-anchor="middle" class="muted label">冷蓝阴影</text></g>
+    <g transform="translate(360)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#6B4830"/><text x="56" y="224" text-anchor="middle" class="gold hex">P04</text><text x="56" y="248" text-anchor="middle" class="white hex">#6B4830</text><text x="56" y="276" text-anchor="middle" class="muted label">固有色</text><text x="56" y="300" text-anchor="middle" class="muted label">旧木甲板</text></g>
+    <g transform="translate(480)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#2A1F18"/><text x="56" y="224" text-anchor="middle" class="gold hex">P05</text><text x="56" y="248" text-anchor="middle" class="white hex">#2A1F18</text><text x="56" y="276" text-anchor="middle" class="muted label">中性基底</text><text x="56" y="300" text-anchor="middle" class="muted label">舱内阴影</text></g>
+    <g transform="translate(600)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#7A6845"/><text x="56" y="224" text-anchor="middle" class="gold hex">P06</text><text x="56" y="248" text-anchor="middle" class="white hex">#7A6845</text><text x="56" y="276" text-anchor="middle" class="muted label">固有色</text><text x="56" y="300" text-anchor="middle" class="muted label">青铜机件</text></g>
+    <g transform="translate(720)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#846035"/><text x="56" y="224" text-anchor="middle" class="gold hex">P07</text><text x="56" y="248" text-anchor="middle" class="white hex">#846035</text><text x="56" y="276" text-anchor="middle" class="muted label">强调色</text><text x="56" y="300" text-anchor="middle" class="muted label">古暗金</text></g>
+    <g transform="translate(840)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#4FC3D9"/><text x="56" y="224" text-anchor="middle" class="gold hex">P08</text><text x="56" y="248" text-anchor="middle" class="white hex">#4FC3D9</text><text x="56" y="276" text-anchor="middle" class="muted label">自发光</text><text x="56" y="300" text-anchor="middle" class="muted label">机关关节</text></g>
+    <g transform="translate(960)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#1A1610"/><text x="56" y="224" text-anchor="middle" class="gold hex">P09</text><text x="56" y="248" text-anchor="middle" class="white hex">#1A1610</text><text x="56" y="276" text-anchor="middle" class="muted label">中性基底</text><text x="56" y="300" text-anchor="middle" class="muted label">哑光黑</text></g>
+    <g transform="translate(1080)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#6B2419"/><text x="56" y="224" text-anchor="middle" class="gold hex">P10</text><text x="56" y="248" text-anchor="middle" class="white hex">#6B2419</text><text x="56" y="276" text-anchor="middle" class="muted label">固有色</text><text x="56" y="300" text-anchor="middle" class="muted label">沙猎深红</text></g>
+    <g transform="translate(1200)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#5C2030"/><text x="56" y="224" text-anchor="middle" class="gold hex">P11</text><text x="56" y="248" text-anchor="middle" class="white hex">#5C2030</text><text x="56" y="276" text-anchor="middle" class="muted label">固有色</text><text x="56" y="300" text-anchor="middle" class="muted label">贵族酒红</text></g>
+    <g transform="translate(1320)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#C9B896"/><text x="56" y="224" text-anchor="middle" class="gold hex">P12</text><text x="56" y="248" text-anchor="middle" class="white hex">#C9B896</text><text x="56" y="276" text-anchor="middle" class="muted label">固有色</text><text x="56" y="300" text-anchor="middle" class="muted label">奶油布料</text></g>
+    <g transform="translate(1440)"><rect width="112" height="330" rx="10" class="card"/><rect x="8" y="8" width="96" height="188" rx="6" fill="#A86A4A"/><text x="56" y="224" text-anchor="middle" class="gold hex">P13</text><text x="56" y="248" text-anchor="middle" class="white hex">#A86A4A</text><text x="56" y="276" text-anchor="middle" class="muted label">高光倾向</text><text x="56" y="300" text-anchor="middle" class="muted label">日晒铜肤</text></g>
+  </g>
+
+  <g transform="translate(42 558)" class="sans">
+    <rect width="1516" height="232" rx="18" class="card"/>
+    <text x="32" y="42" class="gold" font-size="22" font-weight="700">VIDEO PROMPT BINDING / 视频提示词引用</text>
+    <text x="32" y="78" class="white" font-size="18">图片N（PAL-VID-DEMO-01，REFERENCE-ONLY COLOR）：只参考P01–P13的色彩分工、相对占比与调色方向。</text>
+    <text x="32" y="110" class="cyan" font-size="18">P01 #F0B670 → 金色直射光　　P03 #4A5870 → 冷蓝阴影　　P06 #7A6845 → 青铜机件　　P08 #4FC3D9 → 机关自发光</text>
+    <text x="32" y="146" class="muted" font-size="17">允许：曝光、阴影、雾、反射与胶片响应造成合理明度/饱和度变化。</text>
+    <text x="32" y="178" class="muted" font-size="17">禁止：引入色卡外有意设计色相；把色块、P编号、HEX、边框、白底或版式渲染进成片。</text>
+    <rect x="1135" y="162" width="341" height="46" rx="23" fill="#0b2a35" stroke="#4fc3d9"/>
+    <text x="1305" y="192" text-anchor="middle" class="cyan" font-size="17" font-weight="700">STRUCTURED PAL TABLE = SOURCE OF TRUTH</text>
+  </g>
+  <text x="800" y="840" text-anchor="middle" class="sans gold" font-size="18" letter-spacing="5">GENERATE · LABEL · VALIDATE · REFERENCE</text>
+</svg>
